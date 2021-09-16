@@ -77,6 +77,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
     /**
      * {@inheritDoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         assert(\is_string($offset), 'Offset argument must be a type of string');
