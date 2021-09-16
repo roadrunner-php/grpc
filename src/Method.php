@@ -117,21 +117,6 @@ final class Method
     }
 
     /**
-     * @param \ReflectionType|null $type
-     * @return \ReflectionClass|null
-     * @throws \ReflectionException
-     */
-    private static function getReflectionClassByType(?\ReflectionType $type): ?\ReflectionClass
-    {
-        if ($type instanceof \ReflectionNamedType && ! $type->isBuiltin()) {
-            /** @psalm-suppress ArgumentTypeCoercion */
-            return new \ReflectionClass($type->getName());
-        }
-
-        return null;
-    }
-
-    /**
      * Returns true if method signature matches.
      *
      * @param \ReflectionMethod $method
