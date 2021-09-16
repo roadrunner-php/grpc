@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC\Internal;
+namespace Spiral\RoadRunner\GRPC\Internal;
 
 /**
  * @internal Json is an internal library class, please do not use it in your code.
- * @psalm-internal Spiral\GRPC
+ * @psalm-internal Spiral\RoadRunner\GRPC
  */
 final class Json
 {

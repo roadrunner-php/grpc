@@ -9,9 +9,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
-use Spiral\GRPC\Exception\InvokeException;
+use Spiral\RoadRunner\GRPC\Exception\InvokeException;
 
 /**
  * Responsible for data marshalling/unmarshalling and method invocation.

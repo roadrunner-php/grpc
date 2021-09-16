@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 /**
  * @template-implements \IteratorAggregate<string, mixed>

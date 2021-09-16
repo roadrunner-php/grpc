@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC\Exception;
+namespace Spiral\RoadRunner\GRPC\Exception;
 
 use Google\Protobuf\Internal\Message;
 use JetBrains\PhpStorm\ExpectedValues;
-use Spiral\GRPC\StatusCode;
+use Spiral\RoadRunner\GRPC\StatusCode;
 
 /**
  * @psalm-import-type StatusCodeType from StatusCode

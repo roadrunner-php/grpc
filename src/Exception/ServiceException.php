@@ -9,9 +9,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC\Exception;
+namespace Spiral\RoadRunner\GRPC\Exception;
 
-use Spiral\GRPC\StatusCode;
+use Spiral\RoadRunner\GRPC\StatusCode;
 
 class ServiceException extends GRPCException
 {

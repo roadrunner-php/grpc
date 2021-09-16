@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 use Google\Protobuf\Internal\Message;
-use Spiral\GRPC\Exception\GRPCException;
+use Spiral\RoadRunner\GRPC\Exception\GRPCException;
 
 /**
  * Method carry information about one specific RPC method, it's input and
@@ -176,8 +176,8 @@ final class Method
 
                 // Checking that the signature can accept the context.
                 //
-                // TODO If the type is any other implementation of the Spiral\GRPC\ContextInterface other than
-                //      class Spiral\GRPC\Context, it may cause an error.
+                // TODO If the type is any other implementation of the Spiral\RoadRunner\GRPC\ContextInterface other than
+                //      class Spiral\RoadRunner\GRPC\Context, it may cause an error.
                 //      It might make sense to check for such cases?
                 if (! $isContextImplementedType) {
                     $message = \vsprintf(self::ERROR_PARAM_CONTEXT_TYPE, [

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 /**
  * GRPC specific status codes. Sources from Go/GRPC implementation.

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 /**
  * Carries information about call context, client information and metadata.

@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 use Google\Protobuf\Any;
-use Spiral\GRPC\Exception\GRPCException;
-use Spiral\GRPC\Exception\GRPCExceptionInterface;
-use Spiral\GRPC\Exception\NotFoundException;
-use Spiral\GRPC\Exception\ServiceException;
-use Spiral\GRPC\Internal\Json;
+use Spiral\RoadRunner\GRPC\Exception\GRPCException;
+use Spiral\RoadRunner\GRPC\Exception\GRPCExceptionInterface;
+use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
+use Spiral\RoadRunner\GRPC\Exception\ServiceException;
+use Spiral\RoadRunner\GRPC\Internal\Json;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
 

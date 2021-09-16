@@ -9,11 +9,10 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
 use Google\Protobuf\Internal\Message;
-use Spiral\GRPC\Exception\GRPCExceptionInterface;
-use Spiral\GRPC\Exception\InvokeException;
+use Spiral\RoadRunner\GRPC\Exception\InvokeException;
 
 final class Invoker implements InvokerInterface
 {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sample GRPC PHP server.
  */

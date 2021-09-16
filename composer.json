@@ -13,9 +13,8 @@
         "php": ">=7.4",
         "ext-json": "*",
         "symfony/polyfill-php80": "^1.22",
-        "symfony/polyfill-php73": "^1.22",
         "google/protobuf": "^3.7",
-        "spiral/roadrunner": "^1.8|^2.0"
+        "spiral/roadrunner": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -25,14 +24,17 @@
         "vimeo/psalm": "^4.6"
     },
     "autoload": {
+        "files": [
+            "src/polyfill.php"
+        ],
         "psr-4": {
-            "Spiral\\GRPC\\": "src"
+            "Spiral\\RoadRunner\\GRPC\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "": "tests/src",
-            "Spiral\\GRPC\\Tests\\": "tests"
+            "": "tests/stubs",
+            "Spiral\\RoadRunner\\GRPC\\Tests\\": "tests"
         }
     },
     "scripts": {

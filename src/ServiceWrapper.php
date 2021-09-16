@@ -9,11 +9,11 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
-use Spiral\GRPC\Exception\InvokeException;
-use Spiral\GRPC\Exception\NotFoundException;
-use Spiral\GRPC\Exception\ServiceException;
+use Spiral\RoadRunner\GRPC\Exception\InvokeException;
+use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
+use Spiral\RoadRunner\GRPC\Exception\ServiceException;
 
 /**
  * Wraps handlers methods.

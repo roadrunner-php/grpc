@@ -9,9 +9,9 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC;
+namespace Spiral\RoadRunner\GRPC;
 
-use Spiral\GRPC\Internal\Json;
+use Spiral\RoadRunner\GRPC\Internal\Json;
 
 /**
  * @template-implements \IteratorAggregate<string, string>

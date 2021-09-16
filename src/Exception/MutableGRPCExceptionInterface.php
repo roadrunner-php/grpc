@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Spiral\GRPC\Exception;
+namespace Spiral\RoadRunner\GRPC\Exception;
 
 use Google\Protobuf\Internal\Message;
 
