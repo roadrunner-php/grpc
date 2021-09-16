@@ -32,12 +32,12 @@
     "autoload-dev": {
         "psr-4": {
             "": "tests/src",
-            "Spiral\\GRPC\\Tests\\": "tests/GRPC"
+            "Spiral\\GRPC\\Tests\\": "tests"
         }
     },
     "scripts": {
         "test": [
-            "spiral-cs check src tests/GRPC",
+            "spiral-cs check src",
             "psalm --no-cache",
             "phpunit"
         ]
