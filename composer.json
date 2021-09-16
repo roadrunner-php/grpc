@@ -1,5 +1,5 @@
 {
-    "name": "spiral/php-grpc",
+    "name": "spiral/roadrunner-grpc",
     "type": "library",
     "description": "High-Performance GRPC server for PHP applications",
     "license": "MIT",
