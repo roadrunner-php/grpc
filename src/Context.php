@@ -20,7 +20,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
     /**
      * @var array<string, mixed>
      */
-    private $values;
+    private array $values;
 
     /**
      * @param array<string, mixed> $values

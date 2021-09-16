@@ -38,17 +38,17 @@ final class Server
     /**
      * @var InvokerInterface
      */
-    private $invoker;
+    private InvokerInterface $invoker;
 
     /**
-     * @var ServiceWrapper[]
+     * @var array<ServiceWrapper>
      */
-    private $services = [];
+    private array $services = [];
 
     /**
      * @var ServerOptions
      */
-    private $options;
+    private array $options;
 
     /**
      * @param InvokerInterface|null $invoker

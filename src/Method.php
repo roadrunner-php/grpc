@@ -66,22 +66,22 @@ final class Method
     private const ERROR_INVALID_GRPC_METHOD = 'Method %s is not valid GRPC method.';
 
     /**
-     * @var string
+     * @var non-empty-string
      */
-    private $name;
+    private string $name;
 
     /**
      * @var class-string<Message>
      */
-    private $input;
+    private string $input;
 
     /**
      * @var class-string<Message>
      */
-    private $output;
+    private string $output;
 
     /**
-     * @param string $name
+     * @param non-empty-string $name
      * @param class-string<Message> $input
      * @param class-string<Message> $output
      */
@@ -93,7 +93,7 @@ final class Method
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getName(): string
     {

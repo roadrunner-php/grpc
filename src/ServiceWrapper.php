@@ -20,17 +20,25 @@ use Spiral\RoadRunner\GRPC\Exception\ServiceException;
  */
 final class ServiceWrapper
 {
-    /** @var string */
-    private $name;
+    /**
+     * @var non-empty-string
+     */
+    private string $name;
 
-    /** @var ServiceInterface */
-    private $service;
+    /**
+     * @var ServiceInterface
+     */
+    private ServiceInterface $service;
 
-    /** @var InvokerInterface */
-    private $invoker;
+    /**
+     * @var InvokerInterface
+     */
+    private InvokerInterface $invoker;
 
-    /** @var Method[] */
-    private $methods;
+    /**
+     * @var array<Method>
+     */
+    private array $methods;
 
     /**
      * @param InvokerInterface $invoker
@@ -46,7 +54,7 @@ final class ServiceWrapper
     }
 
     /**
-     * @return string
+     * @return non-empty-string
      */
     public function getName(): string
     {

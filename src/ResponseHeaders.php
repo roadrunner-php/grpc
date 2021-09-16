@@ -21,7 +21,7 @@ final class ResponseHeaders implements \IteratorAggregate, \Countable
     /**
      * @var array<string, string>
      */
-    private $headers = [];
+    private array $headers = [];
 
     /**
      * @param iterable<string, string> $headers
