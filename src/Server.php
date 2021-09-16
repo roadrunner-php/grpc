@@ -145,11 +145,13 @@ final class Server
     /**
      * Serve GRPC over given RoadRunner worker.
      *
-     * @param Worker $worker
+     * @param Worker|null $worker
      * @param callable|null $finalize
      */
-    public function serve(Worker $worker, callable $finalize = null): void
+    public function serve(Worker $worker = null, callable $finalize = null): void
     {
+        $worker ??= Worker::create();
+
         while (true) {
             $request = $this->workerReceive($worker);
 
