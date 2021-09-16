@@ -23,15 +23,9 @@ final class Json
     public const DEFAULT_JSON_DEPTH = 512;
 
     /**
-     * @return positive-int|0
+     * @var positive-int|0
      */
-    private static function getFlags(): int
-    {
-        return \defined('\\JSON_THROW_ON_ERROR')
-            // Avoid PHP DCE constant inlining
-            ? \constant('\\JSON_THROW_ON_ERROR')
-            : 0;
-    }
+    public const DEFAULT_JSON_FLAGS = \JSON_THROW_ON_ERROR;
 
     /**
      * @param mixed $payload
@@ -40,12 +34,7 @@ final class Json
      */
     public static function encode($payload): string
     {
-        /** @var string $result */
-        $result = @\json_encode($payload, self::getFlags(), self::DEFAULT_JSON_DEPTH);
-
-        self::assertJsonErrors();
-
-        return $result;
+        return \json_encode($payload, self::DEFAULT_JSON_FLAGS, self::DEFAULT_JSON_DEPTH);
     }
 
     /**
@@ -55,23 +44,6 @@ final class Json
      */
     public static function decode(string $payload): array
     {
-        /** @var array $result */
-        $result = @\json_decode($payload, true, self::DEFAULT_JSON_DEPTH, self::getFlags());
-
-        self::assertJsonErrors();
-
-        return $result;
-    }
-
-    /**
-     * @throws \JsonException
-     */
-    private static function assertJsonErrors(): void
-    {
-        $code = \json_last_error();
-
-        if ($code !== \JSON_ERROR_NONE) {
-            throw new \JsonException(\json_last_error_msg(), $code);
-        }
+        return (array)\json_decode($payload, true, self::DEFAULT_JSON_DEPTH, self::DEFAULT_JSON_FLAGS);
     }
 }
