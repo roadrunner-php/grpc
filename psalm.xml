@@ -18,6 +18,7 @@
         <MixedReturnStatement errorLevel="suppress" />
         <UnusedPsalmSuppress errorLevel="suppress" />
         <InvalidAttribute errorLevel="suppress" />
+        <UndefinedAttributeClass errorLevel="suppress" />
     </issueHandlers>
     <projectFiles>
         <directory name="src" />
