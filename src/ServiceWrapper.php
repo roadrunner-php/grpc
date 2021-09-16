@@ -111,6 +111,7 @@ final class ServiceWrapper
                 throw ServiceException::create($message);
             }
 
+            /** @var non-empty-string $name */
             $name = $reflection->getConstant('NAME');
 
             if (! \is_string($name)) {
