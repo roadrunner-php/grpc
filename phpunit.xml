@@ -22,7 +22,8 @@
         </whitelist>
     </filter>
     <php>
-        <ini name="error_reporting" value="-1"/>
+        <!-- error_reporting = E_ALL ^ E_DEPRECATED -->
+        <ini name="error_reporting" value="24575"/>
         <ini name="memory_limit" value="-1"/>
     </php>
 </phpunit>
