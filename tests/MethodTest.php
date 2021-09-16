@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Service\Message;
 use Spiral\GRPC\ContextInterface;
 use Spiral\GRPC\Method;
-use Test\TestService;
+use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class MethodTest extends TestCase
 {

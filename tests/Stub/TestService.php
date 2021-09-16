@@ -1,15 +1,15 @@
 <?php
 
-namespace Test;
+namespace Spiral\RoadRunner\GRPC\Tests\Stub;
 
 use Service\DetailsMessageForException;
 use Service\EmptyMessage;
 use Service\Message;
 use Service\TestInterface;
-use Spiral\GRPC;
-use Spiral\GRPC\ContextInterface;
-use Spiral\GRPC\Exception\GRPCException;
-use Spiral\GRPC\Exception\NotFoundException;
+use Spiral\RoadRunner\GRPC;
+use Spiral\RoadRunner\GRPC\ContextInterface;
+use Spiral\RoadRunner\GRPC\Exception\GRPCException;
+use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
 
 class TestService implements TestInterface
 {
@@ -56,10 +56,12 @@ class TestService implements TestInterface
             case "ENV_KEY":
                 $out->setMsg(getenv($in->getMsg()));
                 break;
+
             case "PID":
                 $out->setMsg(getmypid());
                 break;
-            case"MD":
+
+            case "MD":
                 $out->setMsg(json_encode($ctx->getValue('key')));
                 break;
         }

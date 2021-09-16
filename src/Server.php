@@ -111,14 +111,6 @@ final class Server
      */
     private function workerSend(Worker $worker, string $body, string $headers): void
     {
-        // RoadRunner 1.x
-        if (\method_exists($worker, 'send')) {
-            $worker->send($body, $headers);
-
-            return;
-        }
-
-        // RoadRunner 2.x
         $worker->respond(new Payload($body, $headers));
     }
 

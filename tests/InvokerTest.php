@@ -16,7 +16,7 @@ use Service\Message;
 use Spiral\GRPC\Context;
 use Spiral\GRPC\Invoker;
 use Spiral\GRPC\Method;
-use Test\TestService;
+use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class InvokerTest extends TestCase
 {

@@ -33,7 +33,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "": "tests/stubs",
+            "GPBMetadata\\": "tests/generated/GPBMetadata",
+            "Service\\": "tests/generated/Service",
+
             "Spiral\\RoadRunner\\GRPC\\Tests\\": "tests"
         }
     },

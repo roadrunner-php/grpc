@@ -15,7 +15,8 @@ use PHPUnit\Framework\TestCase;
 use Service\Message;
 use Service\TestInterface;
 use Spiral\GRPC\Server;
-use Test\TestService;
+use Spiral\RoadRunner\GRPC\Tests\Stub\TestWorker;
+use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class ServerTest extends TestCase
 {

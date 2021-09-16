@@ -18,7 +18,7 @@ use Spiral\GRPC\Context;
 use Spiral\GRPC\Invoker;
 use Spiral\GRPC\ServiceInterface;
 use Spiral\GRPC\ServiceWrapper;
-use Test\TestService;
+use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class ServiceWrapperTest extends TestCase implements ServiceInterface
 {
