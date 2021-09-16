@@ -37,7 +37,7 @@
     },
     "scripts": {
         "test": [
-            "spiral-cs check src",
+            "phpcs --standard=phpcs.xml",
             "psalm --no-cache",
             "phpunit"
         ]
