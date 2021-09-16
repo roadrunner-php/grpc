@@ -161,7 +161,8 @@ final class Method
 
                 // Checking that the signature can accept the context.
                 //
-                // TODO If the type is any other implementation of the Spiral\RoadRunner\GRPC\ContextInterface other than
+                // TODO If the type is any other implementation of the
+                //      Spiral\RoadRunner\GRPC\ContextInterface other than
                 //      class Spiral\RoadRunner\GRPC\Context, it may cause an error.
                 //      It might make sense to check for such cases?
                 if (! $isContextImplementedType) {
