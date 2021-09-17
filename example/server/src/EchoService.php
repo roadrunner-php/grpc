@@ -3,7 +3,7 @@
  * Sample GRPC PHP server.
  */
 
-use Spiral\GRPC\ContextInterface;
+use Spiral\RoadRunner\GRPC\ContextInterface;
 use Service\EchoInterface;
 use Service\Message;
 
