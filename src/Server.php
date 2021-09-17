@@ -124,25 +124,6 @@ final class Server
     }
 
     /**
-     * @param Worker $worker
-     * @return array { 0: string, 1: string } | null
-     *
-     * @psalm-suppress UndefinedMethod
-     * @psalm-suppress PossiblyUndefinedVariable
-     */
-    private function workerReceive(Worker $worker): ?array
-    {
-        /** @var string|\Stringable $body */
-        $body = $worker->receive($ctx);
-
-        if (empty($body) && empty($ctx)) {
-            return null;
-        }
-
-        return [(string)$body, (string)$ctx];
-    }
-
-    /**
      * Serve GRPC over given RoadRunner worker.
      *
      * @param Worker|null $worker
@@ -153,19 +134,17 @@ final class Server
         $worker ??= Worker::create();
 
         while (true) {
-            $request = $this->workerReceive($worker);
+            $request = $worker->waitPayload();
 
-            if (! $request) {
+            if ($request === null) {
                 return;
             }
 
-            [$body, $headers] = $request;
-
             try {
                 /** @var ContextResponse $context */
-                $context = Json::decode((string)$headers);
+                $context = Json::decode($request->header);
 
-                [$answerBody, $answerHeaders] = $this->tick((string)$body, $context);
+                [$answerBody, $answerHeaders] = $this->tick($request->body, $context);
 
                 $this->workerSend($worker, $answerBody, $answerHeaders);
             } catch (GRPCExceptionInterface $e) {
