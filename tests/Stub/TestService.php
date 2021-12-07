@@ -15,7 +15,7 @@ class TestService implements TestInterface
 {
     public function Echo(ContextInterface $ctx, Message $in): Message
     {
-        return $in;
+        return $in->setMsg('pong');
     }
 
     public function Throw(ContextInterface $ctx, Message $in): Message
