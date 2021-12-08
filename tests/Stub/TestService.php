@@ -15,7 +15,7 @@ class TestService implements TestInterface
 {
     public function Echo(ContextInterface $ctx, Message $in): Message
     {
-        return $in;
+        return $in->setMsg('pong');
     }
 
     public function Throw(ContextInterface $ctx, Message $in): Message
@@ -33,7 +33,8 @@ class TestService implements TestInterface
                 $grpcException = new GRPCException("main exception message", 3, [$detailsMessage]);
 
                 throw $grpcException;
-            case "regularException": {
+            case "regularException":
+            {
                 throw new \Exception("Just another exception");
             }
         }

@@ -17,9 +17,10 @@
         "spiral/roadrunner": "^2.0"
     },
     "require-dev": {
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.5",
         "spiral/code-style": "^1.0",
-        "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/var-dumper": ">=4.4",
         "vimeo/psalm": "^4.6"
     },

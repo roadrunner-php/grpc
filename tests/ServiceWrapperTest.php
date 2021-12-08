@@ -81,7 +81,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $m = new Message();
         $m->mergeFromString($out);
 
-        $this->assertSame('hello world', $m->getMsg());
+        $this->assertSame('pong', $m->getMsg());
     }
 
     public function testNotImplemented(): void

@@ -32,7 +32,7 @@ class InvokerTest extends TestCase
         $m = new Message();
         $m->mergeFromString($out);
 
-        $this->assertSame('hello', $m->getMsg());
+        $this->assertSame('pong', $m->getMsg());
     }
 
     public function testInvokeError(): void
