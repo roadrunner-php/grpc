@@ -8,10 +8,9 @@
         }
     ],
     "require": {
-        "spiral/php-grpc": "*"
-    },
-    "require-dev": {
-        "grpc/grpc": "^1.36"
+        "spiral/roadrunner-grpc": "*",
+        "grpc/grpc": "^1.36",
+        "spiral/roadrunner-cli": "^2.0"
     },
     "autoload": {
         "psr-4": {
