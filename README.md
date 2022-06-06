@@ -5,7 +5,7 @@
 [![Codecov](https://codecov.io/gh/spiral/roadrunner-grpc/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/roadrunner-grpc/)
 
 RoadRunner GRPC is an open-source (MIT) high-performance PHP [GRPC](https://grpc.io/) server build at top
-of [RoadRunner](https://github.com/spiral/roadrunner). Server support both PHP and Golang services running within one
+of [RoadRunner](https://github.com/roadrunner-server/roadrunner). Server support both PHP and Golang services running within one
 application.
 
 Documentation:
@@ -28,7 +28,7 @@ Features:
 - Prometheus metrics
 - middleware and server customization support
 - code generation using `protoc` plugin (Plugin can be downloaded from the
-  roadrunner-binary [releases page](https://github.com/spiral/roadrunner-binary/releases))
+  roadrunner [releases page](https://github.com/roadrunner-server/roadrunner/releases))
 - transport, message, worker error management
 - response error codes over php exceptions
 - works on Windows
@@ -36,7 +36,7 @@ Features:
 Usage:
 --------
 Install `rr` and `protoc-gen-php-grpc` by building it or
-use [pre-build binaries](https://github.com/spiral/roadrunner-binary/releases).
+use [pre-build binaries](https://github.com/roadrunner-server/roadrunner/releases).
 
 Define your service schema using proto file. You can scaffold protobuf classes and
 GRPC [service interfaces](https://github.com/spiral/roadrunner-grpc/blob/master/example/echo/src/Service/EchoInterface.php)
