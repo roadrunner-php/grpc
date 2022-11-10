@@ -12,9 +12,10 @@
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
-        "symfony/polyfill-php80": "^1.22",
+        "google/common-protos": "^3.1",
         "google/protobuf": "^3.7",
-        "spiral/roadrunner": "^2.0"
+        "spiral/roadrunner": "^2.0",
+        "symfony/polyfill-php80": "^1.22"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
