@@ -17,7 +17,8 @@ use Service\Message;
 use Service\TestInterface;
 use Spiral\Goridge\Frame;
 use Spiral\Goridge\RelayInterface;
-use Spiral\GRPC\Server;
+use Spiral\RoadRunner\GRPC\Internal\Json;
+use Spiral\RoadRunner\GRPC\Server;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Spiral\RoadRunner\Worker;
 
@@ -67,7 +68,9 @@ class ServerTest extends TestCase
         );
 
         $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
-            return $frame->payload === '5|:|Service `service.Test2` not found.';
+            $error = Json::decode(base64_decode(Json::decode($frame->payload)['error']));
+
+            return $error === ['code' => 5, 'message' => 'Service `service.Test2` not found.'];
         });
 
         $this->server->serve(
@@ -87,7 +90,9 @@ class ServerTest extends TestCase
         );
 
         $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
-            return $frame->payload === '5|:|Method `Echo2` not found in service `service.Test`.';
+            $error = Json::decode(base64_decode(Json::decode($frame->payload)['error']));
+
+            return $error === ['code' => 5, 'message' => 'Method `Echo2` not found in service `service.Test`.'];
         });
 
         $this->server->serve(

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Spiral\RoadRunner\GRPC;
 
 use Google\Protobuf\Any;
+use Google\Rpc\Status;
 use Spiral\RoadRunner\GRPC\Exception\GRPCException;
 use Spiral\RoadRunner\GRPC\Exception\GRPCExceptionInterface;
 use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
@@ -148,7 +149,7 @@ final class Server
 
                 $this->workerSend($worker, $answerBody, $answerHeaders);
             } catch (GRPCExceptionInterface $e) {
-                $this->workerError($worker, $this->packError($e));
+                $this->workerSend($worker, '', $this->workerGrpcError($e));
             } catch (\Throwable $e) {
                 $this->workerError($worker, $this->isDebugMode() ? (string)$e : $e->getMessage());
             } finally {
@@ -171,37 +172,32 @@ final class Server
      */
     protected function invoke(string $service, string $method, ContextInterface $context, string $body): string
     {
-        if (! isset($this->services[$service])) {
+        if (!isset($this->services[$service])) {
             throw NotFoundException::create("Service `{$service}` not found.", StatusCode::NOT_FOUND);
         }
 
         return $this->services[$service]->invoke($method, $context, $body);
     }
 
-    /**
-     * Packs exception message and code into one string.
-     *
-     * Internal agreement:
-     *
-     * Details will be sent as serialized google.protobuf.Any messages after
-     * code and exception message separated with |:| delimiter.
-     *
-     * @param GRPCExceptionInterface $e
-     * @return string
-     */
-    private function packError(GRPCExceptionInterface $e): string
+    private function workerGrpcError(GRPCExceptionInterface $e): string
     {
-        $data = [$e->getCode(), $e->getMessage()];
+        $status = new Status([
+            'code' => $e->getCode(),
+            'message' => $e->getMessage(),
+            'details' => \array_map(
+                static function ($detail) {
+                    $message = new Any();
+                    $message->pack($detail);
 
-        foreach ($e->getDetails() as $detail) {
-            $anyMessage = new Any();
+                    return $message;
+                },
+                $e->getDetails()
+            ),
+        ]);
 
-            $anyMessage->pack($detail);
-
-            $data[] = $anyMessage->serializeToString();
-        }
-
-        return \implode('|:|', $data);
+        return Json::encode([
+            'error' => \base64_encode($status->serializeToJsonString()),
+        ]);
     }
 
     /**
