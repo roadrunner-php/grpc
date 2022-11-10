@@ -149,7 +149,7 @@ final class Server
 
                 $this->workerSend($worker, $answerBody, $answerHeaders);
             } catch (GRPCExceptionInterface $e) {
-                $this->workerSend($worker, '', $this->workerGrpcError($e));
+                $this->workerGrpcError($worker, $e);
             } catch (\Throwable $e) {
                 $this->workerError($worker, $this->isDebugMode() ? (string)$e : $e->getMessage());
             } finally {
@@ -179,7 +179,7 @@ final class Server
         return $this->services[$service]->invoke($method, $context, $body);
     }
 
-    private function workerGrpcError(GRPCExceptionInterface $e): string
+    private function workerGrpcError(Worker $worker, GRPCExceptionInterface $e): void
     {
         $status = new Status([
             'code' => $e->getCode(),
@@ -195,9 +195,9 @@ final class Server
             ),
         ]);
 
-        return Json::encode([
+        $this->workerSend($worker, '', Json::encode([
             'error' => \base64_encode($status->serializeToJsonString()),
-        ]);
+        ]));
     }
 
     /**
