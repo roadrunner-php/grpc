@@ -196,7 +196,7 @@ final class Server
         ]);
 
         $this->workerSend($worker, '', Json::encode([
-            'error' => \base64_encode($status->serializeToJsonString()),
+            'error' => \base64_encode($status->serializeToString()),
         ]));
     }
 
