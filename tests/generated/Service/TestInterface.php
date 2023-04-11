@@ -4,7 +4,7 @@
 
 namespace Service;
 
-use Spiral\GRPC;
+use Spiral\RoadRunner\GRPC;
 
 interface TestInterface extends GRPC\ServiceInterface
 {

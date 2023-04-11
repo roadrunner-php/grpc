@@ -1,42 +1,37 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC;
 
 /**
  * Carries information about call context, client information and metadata.
+ *
+ * @psalm-type TValues = array<string, mixed>
  */
 interface ContextInterface
 {
     /**
      * Create context with new value.
      *
-     * @param string $key
+     * @param non-empty-string $key
      * @param mixed $value
      * @return $this
      */
-    public function withValue(string $key, $value): self;
+    public function withValue(string $key, mixed $value): self;
 
     /**
      * Get context value or return null.
      *
-     * @param string $key
-     * @return mixed|null
+     * @param non-empty-string $key
+     * @return mixed
      */
-    public function getValue(string $key);
+    public function getValue(string $key): mixed;
 
     /**
      * Return all context values.
      *
-     * @return array<string, mixed>
+     * @return TValues
      */
     public function getValues(): array;
 }

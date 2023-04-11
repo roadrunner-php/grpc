@@ -1,27 +1,20 @@
 <?php
 
-/**
- * This file is part of RoadRunner package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Service\Message;
-use Spiral\GRPC\ContextInterface;
-use Spiral\GRPC\Method;
+use Spiral\RoadRunner\GRPC\ContextInterface;
+use Spiral\RoadRunner\GRPC\Method;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class MethodTest extends TestCase
 {
     public function testInvalidParse(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\GRPCException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\GRPCException::class);
 
         Method::parse(new \ReflectionMethod($this, 'testInvalidParse'));
     }
@@ -61,21 +54,21 @@ class MethodTest extends TestCase
     {
         $s = new TestService();
         $m = Method::parse(new \ReflectionMethod($s, 'Info'));
-        $this->assertSame('Info', $m->getName());
+        $this->assertSame('Info', $m->name);
     }
 
     public function testMethodInputType(): void
     {
         $s = new TestService();
         $m = Method::parse(new \ReflectionMethod($s, 'Info'));
-        $this->assertSame(Message::class, $m->getInputType());
+        $this->assertSame(Message::class, $m->outputType);
     }
 
     public function testMethodOutputType(): void
     {
         $s = new TestService();
         $m = Method::parse(new \ReflectionMethod($s, 'Info'));
-        $this->assertSame(Message::class, $m->getOutputType());
+        $this->assertSame(Message::class, $m->outputType);
     }
 
     public function tM(ContextInterface $context, TestService $input): Message

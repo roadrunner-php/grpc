@@ -5,30 +5,54 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Anton Titov / Wolfy-J",
+            "name": "Wolfy-J",
             "email": "wolfy.jd@gmail.com"
+        },
+        {
+            "name": "Pavel Buchnev (butschster)",
+            "email": "pavel.buchnev@spiralscout.com"
+        },
+        {
+            "name": "Aleksei Gagarin (roxblnfk)",
+            "email": "alexey.gagarin@spiralscout.com"
+        },
+        {
+            "name": "Maksim Smakouz (msmakouz)",
+            "email": "maksim.smakouz@spiralscout.com"
+        },
+        {
+            "name": "RoadRunner Community",
+            "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+        }
+    ],
+    "homepage": "https://roadrunner.dev/",
+    "support": {
+        "docs": "https://roadrunner.dev/docs",
+        "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+        "forum": "https://forum.roadrunner.dev/",
+        "chat": "https://discord.gg/V6EK4he"
+
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/roadrunner-server"
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "ext-json": "*",
         "google/common-protos": "^3.1",
         "google/protobuf": "^3.7",
-        "spiral/roadrunner": "^2.0",
-        "symfony/polyfill-php80": "^1.22"
+        "spiral/roadrunner": "^2023.1"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.5",
-        "spiral/code-style": "^1.0",
-        "symfony/var-dumper": ">=4.4",
-        "vimeo/psalm": "^4.6"
+        "vimeo/psalm": ">=5.8"
     },
     "autoload": {
-        "files": [
-            "src/polyfill.php"
-        ],
         "psr-4": {
             "Spiral\\RoadRunner\\GRPC\\": "src"
         }
@@ -42,16 +66,8 @@
         }
     },
     "scripts": {
-        "test": [
-            "phpcs --standard=phpcs.xml",
-            "psalm --no-cache",
-            "phpunit"
-        ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
-        }
+        "tests": "phpunit",
+        "psalm": "psalm --no-cache"
     },
     "config": {
         "sort-packages": true

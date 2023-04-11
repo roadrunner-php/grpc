@@ -1,18 +1,10 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Exception;
 
 use Google\Protobuf\Internal\Message;
-use JetBrains\PhpStorm\ExpectedValues;
 use Spiral\RoadRunner\GRPC\StatusCode;
 
 /**
@@ -23,15 +15,15 @@ interface GRPCExceptionInterface extends \Throwable
     /**
      * Returns GRPC exception status code.
      *
-     * @psalm-suppress MissingImmutableAnnotation
-     * @psalm-return StatusCodeType
-     * @return int
+     * @return StatusCodeType
+     * @psalm-mutation-free
      */
-    #[ExpectedValues(valuesFromClass: StatusCode::class)]
     public function getCode();
 
     /**
-     * @return array<Message>
+     * Get the collection of protobuf messages for describing caused error.
+     *
+     * @return Message[]
      */
     public function getDetails(): array;
 }

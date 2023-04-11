@@ -1,12 +1,5 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC;
@@ -20,31 +13,21 @@ use Spiral\RoadRunner\GRPC\Exception\ServiceException;
  */
 final class ServiceWrapper
 {
-    /**
-     * @var non-empty-string
-     */
+    /** @var non-empty-string */
     private string $name;
 
-    /**
-     * @var ServiceInterface
-     */
     private ServiceInterface $service;
 
-    /**
-     * @var InvokerInterface
-     */
     private InvokerInterface $invoker;
 
-    /**
-     * @var array<Method>
-     */
+    /** @var array<string, Method> */
     private array $methods;
 
     /**
-     * @param InvokerInterface $invoker
-     * @param class-string $interface Service interface name.
-     * @param ServiceInterface $service
-     * @throws ServiceException
+     * @template T of ServiceInterface
+     *
+     * @param class-string<T> $interface Generated service interface.
+     * @param T $service Must implement interface.
      */
     public function __construct(InvokerInterface $invoker, string $interface, ServiceInterface $service)
     {
@@ -54,6 +37,7 @@ final class ServiceWrapper
     }
 
     /**
+     * Get service name from class const `NAME`
      * @return non-empty-string
      */
     public function getName(): string
@@ -61,16 +45,15 @@ final class ServiceWrapper
         return $this->name;
     }
 
-    /**
-     * @return ServiceInterface
-     */
     public function getService(): ServiceInterface
     {
         return $this->service;
     }
 
     /**
-     * @return array
+     * Get available service methods.
+     *
+     * @return Method[]
      */
     public function getMethods(): array
     {
@@ -78,10 +61,8 @@ final class ServiceWrapper
     }
 
     /**
-     * @param string $method
-     * @param ContextInterface $context
-     * @param string|null $input
-     * @return string
+     * Invoke given service method.
+     *
      * @throws NotFoundException
      * @throws InvokeException
      */
@@ -97,8 +78,11 @@ final class ServiceWrapper
     /**
      * Configure service name and methods.
      *
-     * @param class-string $interface
-     * @param ServiceInterface $service
+     * @template T of ServiceInterface
+     *
+     * @param class-string<T> $interface Generated service interface.
+     * @param T $service Must implement interface.
+     *
      * @throws ServiceException
      */
     protected function configure(string $interface, ServiceInterface $service): void
@@ -136,7 +120,6 @@ final class ServiceWrapper
     }
 
     /**
-     * @param ServiceInterface $service
      * @return array<string, Method>
      */
     protected function fetchMethods(ServiceInterface $service): array
