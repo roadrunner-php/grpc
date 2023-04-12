@@ -1,12 +1,5 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC;
@@ -24,41 +17,28 @@ use Spiral\RoadRunner\Worker;
 /**
  * Manages group of services and communication with RoadRunner server.
  *
- * @psalm-type ServerOptions = array {
+ * @psalm-type ServerOptions = array{
  *  debug?: bool
  * }
  *
- * @psalm-type ContextResponse = array {
- *  service: string,
- *  method:  string,
+ * @psalm-type ContextResponse = array{
+ *  service: class-string<ServiceInterface>,
+ *  method:  non-empty-string,
  *  context: array<string, array<string>>
  * }
  */
 final class Server
 {
-    /**
-     * @var InvokerInterface
-     */
-    private InvokerInterface $invoker;
-
-    /**
-     * @var array<ServiceWrapper>
-     */
+    /** @var ServiceWrapper[] */
     private array $services = [];
 
     /**
-     * @var ServerOptions
-     */
-    private array $options;
-
-    /**
-     * @param InvokerInterface|null $invoker
      * @param ServerOptions $options
      */
-    public function __construct(InvokerInterface $invoker = null, array $options = [])
-    {
-        $this->invoker = $invoker ?? new Invoker();
-        $this->options = $options;
+    public function __construct(
+        private readonly InvokerInterface $invoker = new Invoker(),
+        private readonly array $options = [],
+    ) {
     }
 
     /**
@@ -83,17 +63,15 @@ final class Server
     }
 
     /**
-     * @param string $body
      * @param ContextResponse $data
-     * @return array{ 0: string, 1: string }
+     * @return array{0: string, 1: string}
      * @throws \JsonException
      * @throws \Throwable
      */
     private function tick(string $body, array $data): array
     {
         $context = (new Context($data['context']))
-            ->withValue(ResponseHeaders::class, new ResponseHeaders())
-        ;
+            ->withValue(ResponseHeaders::class, new ResponseHeaders());
 
         $response = $this->invoke($data['service'], $data['method'], $context, $body);
 
@@ -105,9 +83,6 @@ final class Server
     }
 
     /**
-     * @param Worker $worker
-     * @param string $body
-     * @param string $headers
      * @psalm-suppress InaccessibleMethod
      */
     private function workerSend(Worker $worker, string $body, string $headers): void
@@ -115,10 +90,6 @@ final class Server
         $worker->respond(new Payload($body, $headers));
     }
 
-    /**
-     * @param Worker $worker
-     * @param string $message
-     */
     private function workerError(Worker $worker, string $message): void
     {
         $worker->error($message);
@@ -126,9 +97,6 @@ final class Server
 
     /**
      * Serve GRPC over given RoadRunner worker.
-     *
-     * @param Worker|null $worker
-     * @param callable|null $finalize
      */
     public function serve(Worker $worker = null, callable $finalize = null): void
     {
@@ -163,11 +131,8 @@ final class Server
     /**
      * Invoke service method with binary payload and return the response.
      *
-     * @param string $service
-     * @param string $method
-     * @param ContextInterface $context
-     * @param string $body
-     * @return string
+     * @param class-string<ServiceInterface> $service
+     * @param non-empty-string $method
      * @throws GRPCException
      */
     protected function invoke(string $service, string $method, ContextInterface $context, string $body): string
@@ -191,19 +156,21 @@ final class Server
 
                     return $message;
                 },
-                $e->getDetails()
+                $e->getDetails(),
             ),
         ]);
 
-        $this->workerSend($worker, '', Json::encode([
-            'error' => \base64_encode($status->serializeToString()),
-        ]));
+        $this->workerSend(
+            $worker,
+            '',
+            Json::encode([
+                'error' => \base64_encode($status->serializeToString()),
+            ]),
+        );
     }
 
     /**
-     * If server runs in debug mode
-     *
-     * @return bool
+     * Checks if debug mode is enabled.
      */
     private function isDebugMode(): bool
     {

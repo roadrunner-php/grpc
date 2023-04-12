@@ -1,12 +1,5 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC;
@@ -14,17 +7,19 @@ namespace Spiral\RoadRunner\GRPC;
 use Spiral\RoadRunner\GRPC\Internal\Json;
 
 /**
- * @template-implements \IteratorAggregate<string, string>
+ * @psalm-type THeaderKey = non-empty-string
+ * @psalm-type THeaderValue = string
+ * @implements \IteratorAggregate<THeaderKey, string>
  */
 final class ResponseHeaders implements \IteratorAggregate, \Countable
 {
     /**
-     * @var array<string, string>
+     * @var array<THeaderKey, THeaderValue>
      */
     private array $headers = [];
 
     /**
-     * @param iterable<string, string> $headers
+     * @param iterable<THeaderKey, THeaderValue> $headers
      */
     public function __construct(iterable $headers = [])
     {
@@ -34,8 +29,8 @@ final class ResponseHeaders implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param THeaderKey $key
+     * @param THeaderValue $value
      */
     public function set(string $key, string $value): void
     {
@@ -43,33 +38,26 @@ final class ResponseHeaders implements \IteratorAggregate, \Countable
     }
 
     /**
-     * @param string $key
+     * @param THeaderKey $key
      * @param string|null $default
-     * @return string|null
+     * @return THeaderValue|null
      */
     public function get(string $key, string $default = null): ?string
     {
         return $this->headers[$key] ?? $default;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->headers);
     }
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return \count($this->headers);
     }
 
     /**
-     * @return string
      * @throws \JsonException
      */
     public function packHeaders(): string

@@ -1,12 +1,5 @@
 <?php
 
-/**
- * This file is part of RoadRunner package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
@@ -14,10 +7,10 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 use PHPUnit\Framework\TestCase;
 use Service\Message;
 use Service\TestInterface;
-use Spiral\GRPC\Context;
-use Spiral\GRPC\Invoker;
-use Spiral\GRPC\ServiceInterface;
-use Spiral\GRPC\ServiceWrapper;
+use Spiral\RoadRunner\GRPC\Context;
+use Spiral\RoadRunner\GRPC\Invoker;
+use Spiral\RoadRunner\GRPC\ServiceInterface;
+use Spiral\RoadRunner\GRPC\ServiceWrapper;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class ServiceWrapperTest extends TestCase implements ServiceInterface
@@ -57,7 +50,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
 
     public function testInvokeNotFound(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\NotFoundException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\NotFoundException::class);
 
         $w = new ServiceWrapper(
             new Invoker(),
@@ -86,7 +79,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
 
     public function testNotImplemented(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\ServiceException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
 
         $w = new ServiceWrapper(
             new Invoker(),
@@ -97,7 +90,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
 
     public function testInvalidInterface(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\ServiceException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
 
         $w = new ServiceWrapper(
             new Invoker(),
@@ -108,7 +101,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
 
     public function testInvalidInterface2(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\ServiceException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
 
         $w = new ServiceWrapper(
             new Invoker(),

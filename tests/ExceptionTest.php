@@ -1,23 +1,16 @@
 <?php
 
-/**
- * This file is part of RoadRunner package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\GRPC\Exception\GRPCException;
-use Spiral\GRPC\Exception\InvokeException;
-use Spiral\GRPC\Exception\NotFoundException;
-use Spiral\GRPC\Exception\UnauthenticatedException;
-use Spiral\GRPC\Exception\UnimplementedException;
-use Spiral\GRPC\StatusCode;
+use Spiral\RoadRunner\GRPC\Exception\GRPCException;
+use Spiral\RoadRunner\GRPC\Exception\InvokeException;
+use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
+use Spiral\RoadRunner\GRPC\Exception\UnauthenticatedException;
+use Spiral\RoadRunner\GRPC\Exception\UnimplementedException;
+use Spiral\RoadRunner\GRPC\StatusCode;
 
 class ExceptionTest extends TestCase
 {

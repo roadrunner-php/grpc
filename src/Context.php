@@ -1,39 +1,25 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC;
 
 /**
- * @template-implements \IteratorAggregate<string, mixed>
- * @template-implements \ArrayAccess<string, mixed>
+ * @psalm-import-type TValues from ContextInterface
+ * @implements \IteratorAggregate<string, mixed>
+ * @implements \ArrayAccess<string, mixed>
  */
 final class Context implements ContextInterface, \IteratorAggregate, \Countable, \ArrayAccess
 {
     /**
-     * @var array<string, mixed>
+     * @param TValues $values
      */
-    private array $values;
-
-    /**
-     * @param array<string, mixed> $values
-     */
-    public function __construct(array $values)
-    {
-        $this->values = $values;
+    public function __construct(
+        private array $values,
+    ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function withValue(string $key, $value): ContextInterface
+    public function withValue(string $key, mixed $value): ContextInterface
     {
         $ctx = clone $this;
         $ctx->values[$key] = $value;
@@ -41,29 +27,19 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return $ctx;
     }
 
-    /**
-     * {@inheritDoc}
-     * @param mixed|null $default
-     */
-    public function getValue(string $key, $default = null)
+    public function getValue(string $key, mixed $default = null): mixed
     {
         return $this->values[$key] ?? $default;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getValues(): array
     {
         return $this->values;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        \assert(\is_string($offset), 'Offset argument must be a type of string');
 
         /**
          * Note: PHP Opcode optimisation
@@ -74,49 +50,32 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
         return isset($this->values[$offset]) || \array_key_exists($offset, $this->values);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        \assert(\is_string($offset), 'Offset argument must be a type of string');
 
         return $this->values[$offset] ?? null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        \assert(\is_string($offset), 'Offset argument must be a type of string');
 
         $this->values[$offset] = $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
-        assert(\is_string($offset), 'Offset argument must be a type of string');
+        \assert(\is_string($offset), 'Offset argument must be a type of string');
 
         unset($this->values[$offset]);
     }
 
-
-    /**
-     * {@inheritDoc}
-     */
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->values);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function count(): int
     {
         return \count($this->values);

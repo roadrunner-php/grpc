@@ -1,19 +1,12 @@
 <?php
 
-/**
- * This file is part of RoadRunner package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Spiral\GRPC\Context;
-use Spiral\GRPC\ResponseHeaders;
+use Spiral\RoadRunner\GRPC\Context;
+use Spiral\RoadRunner\GRPC\ResponseHeaders;
 
 class ContextTest extends TestCase
 {

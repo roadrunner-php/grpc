@@ -1,12 +1,5 @@
 <?php
 
-/**
- * This file is part of RoadRunner GRPC package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Internal;
@@ -28,18 +21,14 @@ final class Json
     public const DEFAULT_JSON_FLAGS = \JSON_THROW_ON_ERROR;
 
     /**
-     * @param mixed $payload
-     * @return string
      * @throws \JsonException
      */
-    public static function encode($payload): string
+    public static function encode(mixed $payload): string
     {
         return \json_encode($payload, self::DEFAULT_JSON_FLAGS, self::DEFAULT_JSON_DEPTH);
     }
 
     /**
-     * @param string $payload
-     * @return array
      * @throws \JsonException
      */
     public static function decode(string $payload): array

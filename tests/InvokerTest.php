@@ -1,21 +1,14 @@
 <?php
 
-/**
- * This file is part of RoadRunner package.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Service\Message;
-use Spiral\GRPC\Context;
-use Spiral\GRPC\Invoker;
-use Spiral\GRPC\Method;
+use Spiral\RoadRunner\GRPC\Context;
+use Spiral\RoadRunner\GRPC\Invoker;
+use Spiral\RoadRunner\GRPC\Method;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 
 class InvokerTest extends TestCase
@@ -37,7 +30,7 @@ class InvokerTest extends TestCase
 
     public function testInvokeError(): void
     {
-        $this->expectException(\Spiral\GRPC\Exception\InvokeException::class);
+        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\InvokeException::class);
 
         $s = new TestService();
         $m = Method::parse(new \ReflectionMethod($s, 'Echo'));
