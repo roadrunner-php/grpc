@@ -164,7 +164,7 @@ final class Server
             $worker,
             '',
             Json::encode([
-                'error' => \base64_encode((string) $status->serializeToString()),
+                'error' => \base64_encode($status->serializeToString()),
             ]),
         );
     }

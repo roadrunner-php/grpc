@@ -28,7 +28,7 @@ final class Invoker implements InvokerInterface
         \assert($this->assertResultType($method, $message));
 
         try {
-            return (string) $message->serializeToString();
+            return $message->serializeToString();
         } catch (\Throwable $e) {
             throw InvokeException::create($e->getMessage(), StatusCode::INTERNAL, $e);
         }
