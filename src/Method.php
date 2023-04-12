@@ -186,10 +186,14 @@ final class Method
         }
 
         /**
-         * @var \ReflectionParameter $context
-         * @var \ReflectionParameter $input
+         * @var array{
+         *     0: \ReflectionParameter,
+         *     1: \ReflectionParameter
+         * } $params
          */
-        [$context, $input] = $method->getParameters();
+        $params = $method->getParameters();
+
+        [$context, $input] = $params;
 
         // The first parameter can only take a context object
         self::assertContextParameter($method, $context);

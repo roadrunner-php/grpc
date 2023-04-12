@@ -22,28 +22,28 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
     protected const CODE = StatusCode::UNKNOWN;
 
     /**
-     * @param StatusCodeType|null $code
+     * @param StatusCodeType $code
      * @param Message[] $details Collection of protobuf messages for describing error which will be converted to
      * google.protobuf. Any during sending as response. {@see https://cloud.google.com/apis/design/errors}
      */
     final public function __construct(
         string $message = '',
-        int $code = null,
+        int $code = self::CODE,
         private array $details = [],
         \Throwable $previous = null,
     ) {
-        parent::__construct($message, (int)($code ?? static::CODE), $previous);
+        parent::__construct($message, $code, $previous);
     }
 
     /**
-     * @param StatusCodeType|null $code
+     * @param StatusCodeType $code
      * @param Message[] $details
      * @return static
      */
     public static function create(
         string $message,
         #[ExpectedValues(valuesFromClass: StatusCode::class)]
-        int $code = null,
+        int $code = self::CODE,
         \Throwable $previous = null,
         array $details = [],
     ): self {

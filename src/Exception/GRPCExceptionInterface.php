@@ -18,6 +18,7 @@ interface GRPCExceptionInterface extends \Throwable
      * @return StatusCodeType
      * @psalm-mutation-free
      */
+    #[\ReturnTypeWillChange]
     public function getCode();
 
     /**
