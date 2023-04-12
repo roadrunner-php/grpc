@@ -5,8 +5,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Wolfy-J",
-            "email": "wolfy.jd@gmail.com"
+            "name": "Anton Titov (wolfy-j)",
+            "email": "wolfy-j@spiralscout.com"
         },
         {
             "name": "Pavel Buchnev (butschster)",
@@ -31,7 +31,6 @@
         "issues": "https://github.com/roadrunner-server/roadrunner/issues",
         "forum": "https://forum.roadrunner.dev/",
         "chat": "https://discord.gg/V6EK4he"
-
     },
     "funding": [
         {
@@ -44,6 +43,8 @@
         "ext-json": "*",
         "google/common-protos": "^3.1",
         "google/protobuf": "^3.7",
+        "spiral/roadrunner-worker": "^3.0",
+        "spiral/goridge": "^4.0",
         "spiral/roadrunner": "^2023.1"
     },
     "require-dev": {
@@ -61,7 +62,6 @@
         "psr-4": {
             "GPBMetadata\\": "tests/generated/GPBMetadata",
             "Service\\": "tests/generated/Service",
-
             "Spiral\\RoadRunner\\GRPC\\Tests\\": "tests"
         }
     },
