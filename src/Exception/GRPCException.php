@@ -28,11 +28,11 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
      */
     final public function __construct(
         string $message = '',
-        int $code = self::CODE,
+        ?int $code = null,
         private array $details = [],
         \Throwable $previous = null,
     ) {
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code ?? static::CODE, $previous);
     }
 
     /**
