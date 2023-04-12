@@ -42,7 +42,7 @@ final class Invoker implements InvokerInterface
     private function assertResultType(Method $method, mixed $result): bool
     {
         if (!$result instanceof Message) {
-            $type = \is_object($result) ? $result::class : \get_debug_type($result);
+            $type = \get_debug_type($result);
 
             throw new \BadFunctionCallException(
                 \sprintf(self::ERROR_METHOD_RETURN, $method->name, Message::class, $type)

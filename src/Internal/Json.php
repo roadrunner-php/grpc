@@ -21,8 +21,6 @@ final class Json
     public const DEFAULT_JSON_FLAGS = \JSON_THROW_ON_ERROR;
 
     /**
-     * @param mixed $payload
-     * @return string
      * @throws \JsonException
      */
     public static function encode(mixed $payload): string
@@ -31,8 +29,6 @@ final class Json
     }
 
     /**
-     * @param string $payload
-     * @return array
      * @throws \JsonException
      */
     public static function decode(string $payload): array

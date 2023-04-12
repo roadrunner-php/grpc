@@ -18,8 +18,6 @@ final class ServiceWrapper
 
     private ServiceInterface $service;
 
-    private InvokerInterface $invoker;
-
     /** @var array<string, Method> */
     private array $methods;
 
@@ -29,10 +27,11 @@ final class ServiceWrapper
      * @param class-string<T> $interface Generated service interface.
      * @param T $service Must implement interface.
      */
-    public function __construct(InvokerInterface $invoker, string $interface, ServiceInterface $service)
-    {
-        $this->invoker = $invoker;
-
+    public function __construct(
+        private readonly InvokerInterface $invoker,
+        string $interface,
+        ServiceInterface $service,
+    ) {
         $this->configure($interface, $service);
     }
 

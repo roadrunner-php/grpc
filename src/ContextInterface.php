@@ -15,7 +15,6 @@ interface ContextInterface
      * Create context with new value.
      *
      * @param non-empty-string $key
-     * @param mixed $value
      * @return $this
      */
     public function withValue(string $key, mixed $value): self;
@@ -24,7 +23,6 @@ interface ContextInterface
      * Get context value or return null.
      *
      * @param non-empty-string $key
-     * @return mixed
      */
     public function getValue(string $key): mixed;
 

@@ -55,7 +55,7 @@ final class Method
     {
         try {
             self::assertMethodSignature($method);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
 
@@ -174,7 +174,6 @@ final class Method
     }
 
     /**
-     * @param \ReflectionMethod $method
      * @throws \ReflectionException
      * @throws \DomainException
      */

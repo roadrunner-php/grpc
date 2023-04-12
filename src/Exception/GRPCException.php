@@ -36,7 +36,6 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
     }
 
     /**
-     * @param string $message
      * @param StatusCodeType|null $code
      * @param Message[] $details
      * @return static

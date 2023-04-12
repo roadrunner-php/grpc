@@ -17,8 +17,6 @@ interface MutableGRPCExceptionInterface extends GRPCExceptionInterface
 
     /**
      * Appends details message to the GRPC Exception.
-     *
-     * @param Message $message
      */
     public function addDetails(Message $message): void;
 }
