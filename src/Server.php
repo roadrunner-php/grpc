@@ -13,6 +13,7 @@ use Spiral\RoadRunner\GRPC\Exception\ServiceException;
 use Spiral\RoadRunner\GRPC\Internal\Json;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
+use Spiral\RoadRunner\WorkerInterface;
 
 /**
  * Manages group of services and communication with RoadRunner server.
@@ -85,12 +86,12 @@ final class Server
     /**
      * @psalm-suppress InaccessibleMethod
      */
-    private function workerSend(Worker $worker, string $body, string $headers): void
+    private function workerSend(WorkerInterface $worker, string $body, string $headers): void
     {
         $worker->respond(new Payload($body, $headers));
     }
 
-    private function workerError(Worker $worker, string $message): void
+    private function workerError(WorkerInterface $worker, string $message): void
     {
         $worker->error($message);
     }
@@ -98,7 +99,7 @@ final class Server
     /**
      * Serve GRPC over given RoadRunner worker.
      */
-    public function serve(Worker $worker = null, callable $finalize = null): void
+    public function serve(WorkerInterface $worker = null, callable $finalize = null): void
     {
         $worker ??= Worker::create();
 
