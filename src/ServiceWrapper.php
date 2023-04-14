@@ -56,7 +56,7 @@ final class ServiceWrapper
      */
     public function getMethods(): array
     {
-        return array_values($this->methods);
+        return \array_values($this->methods);
     }
 
     /**

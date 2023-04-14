@@ -145,7 +145,7 @@ final class Server
         return $this->services[$service]->invoke($method, $context, $body);
     }
 
-    private function workerGrpcError(Worker $worker, GRPCExceptionInterface $e): void
+    private function workerGrpcError(WorkerInterface $worker, GRPCExceptionInterface $e): void
     {
         $status = new Status([
             'code' => $e->getCode(),
