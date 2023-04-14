@@ -49,6 +49,33 @@ final class Method
     }
 
     /**
+     * @deprecated Use Method::name property instead.
+     * @return non-empty-string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @deprecated Use Method::outputType property instead.
+     * @return class-string<Message>
+     */
+    public function getInputType(): string
+    {
+        return $this->inputType;
+    }
+
+    /**
+     * @deprecated Use Method::outputType property instead.
+     * @return class-string<Message>
+     */
+    public function getOutputType(): string
+    {
+        return $this->outputType;
+    }
+
+    /**
      * Returns true if method signature matches.
      */
     public static function match(\ReflectionMethod $method): bool
