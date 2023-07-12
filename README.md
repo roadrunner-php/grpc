@@ -8,17 +8,7 @@ RoadRunner GRPC is an open-source (MIT) high-performance PHP [GRPC](https://grpc
 of [RoadRunner](https://github.com/roadrunner-server/roadrunner). Server support both PHP and Golang services running within one
 application.
 
-Documentation:
---------
-
-* [Installation and Configuration](https://spiral.dev/docs/grpc-configuration)
-* [Service Code](https://spiral.dev/docs/grpc-service)
-* [Client SDK](https://spiral.dev/docs/grpc-client)
-* [Golang Services](https://spiral.dev/docs/grpc-golang)
-* [Data Streaming](https://spiral.dev/docs/grpc-streaming)
-
-Features:
---------
+## Features
 
 - native Golang GRPC implementation compliant
 - minimal configuration, plug-and-play model
@@ -33,37 +23,13 @@ Features:
 - response error codes over php exceptions
 - works on Windows
 
-Usage:
---------
-Install `rr` and `protoc-gen-php-grpc` by building it or
-use [pre-build binaries](https://github.com/roadrunner-server/roadrunner/releases).
+## Documentation
 
-Define your service schema using proto file. You can scaffold protobuf classes and
-GRPC [service interfaces](https://github.com/spiral/roadrunner-grpc/blob/master/example/echo/src/Service/EchoInterface.php)
-using:
+You can find more information about RoadRunner GRPC plugin in the [official documentation](https://roadrunner.dev/docs/plugins-grpc).
 
-```
-$ protoc --php_out=target-dir/ --php-grpc_out=target-dir/ sample.proto
-```
+## Example
 
-> Make sure to install [protoc compiler](https://github.com/protocolbuffers/protobuf) and
-> run `composer require spiral/roadrunner-grpc` first
-
-[Implement](https://github.com/spiral/roadrunner-grpc/blob/master/example/echo/src/EchoService.php) needed classes and
-create [worker.php](https://github.com/spiral/roadrunner-grpc/blob/master/example/echo/worker.php) to invoke your
-services.
-
-Install [rr](https://roadrunner.dev/docs/intro-install) and
-place [.rr.yaml](https://github.com/spiral/roadrunner-grpc/blob/master/example/echo/.rr.yaml) (or any other format
-supported by viper configurator) into the root of your project. You can run your application now:
-
-```
-$ rr serve
-```
-
-> See [example](https://github.com/spiral/roadrunner-grpc/blob/master/example).
-
-You can find more details regarding server configuration at [RoadRunner Wiki](https://roadrunner.dev/docs).
+You can find example of GRPC application in [example](./example/echo) directory.
 
 <a href="https://spiral.dev/">
 <img src="https://user-images.githubusercontent.com/773481/220979012-e67b74b5-3db1-41b7-bdb0-8a042587dedc.jpg" alt="try Spiral Framework" />
