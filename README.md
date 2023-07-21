@@ -1,8 +1,7 @@
 # RoadRunner GRPC Plugin
 
 [![Latest Stable Version](https://poser.pugx.org/spiral/roadrunner-grpc/version)](https://packagist.org/packages/spiral/roadrunner-grpc)
-[![build](https://github.com/spiral/roadrunner-grpc/actions/workflows/ci-build.yml/badge.svg)](https://github.com/spiral/roadrunner-grpc/actions/workflows/ci-build.yml)
-[![Codecov](https://codecov.io/gh/spiral/roadrunner-grpc/branch/master/graph/badge.svg)](https://codecov.io/gh/spiral/roadrunner-grpc/)
+[![Codecov](https://codecov.io/gh/roadrunner-php/grpc/branch/3.x/graph/badge.svg)](https://codecov.io/gh/roadrunner-php/grpc/)
 
 RoadRunner GRPC is an open-source (MIT) high-performance PHP [GRPC](https://grpc.io/) server build at top
 of [RoadRunner](https://github.com/roadrunner-server/roadrunner). Server support both PHP and Golang services running within one
