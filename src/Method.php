@@ -49,7 +49,7 @@ final class Method
     }
 
     /**
-     * @deprecated Use Method::name property instead.
+     * @deprecated Use {Method->name} property instead.
      * @return non-empty-string
      */
     public function getName(): string
@@ -58,7 +58,7 @@ final class Method
     }
 
     /**
-     * @deprecated Use Method::outputType property instead.
+     * @deprecated Use {Method->inputType} property instead.
      * @return class-string<Message>
      */
     public function getInputType(): string
@@ -67,7 +67,7 @@ final class Method
     }
 
     /**
-     * @deprecated Use Method::outputType property instead.
+     * @deprecated Use {Method->outputType} property instead.
      * @return class-string<Message>
      */
     public function getOutputType(): string
