@@ -41,7 +41,7 @@
     "require": {
         "php": ">=8.1",
         "ext-json": "*",
-        "google/common-protos": "^3.1",
+        "google/common-protos": "^3.1|^4.0",
         "google/protobuf": "^3.7",
         "spiral/roadrunner-worker": "^3.0",
         "spiral/goridge": "^4.0",
