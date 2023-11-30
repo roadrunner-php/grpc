@@ -28,6 +28,21 @@ class InvokerTest extends TestCase
         $this->assertSame('pong', $m->getMsg());
     }
 
+    public function testInvokeWithInputMessage(): void
+    {
+        $s = new TestService();
+        $m = Method::parse(new \ReflectionMethod($s, 'Echo'));
+
+        $i = new Invoker();
+
+        $out = $i->invoke($s, $m, new Context([]), $this->createMessage('hello'));
+
+        $m = new Message();
+        $m->mergeFromString($out);
+
+        $this->assertSame('pong', $m->getMsg());
+    }
+
     public function testInvokeError(): void
     {
         $this->expectException(\Spiral\RoadRunner\GRPC\Exception\InvokeException::class);
@@ -42,9 +57,14 @@ class InvokerTest extends TestCase
 
     private function packMessage(string $message): string
     {
+        return $this->createMessage($message)->serializeToString();
+    }
+
+    private function createMessage(string $message): Message
+    {
         $m = new Message();
         $m->setMsg($message);
 
-        return $m->serializeToString();
+        return $m;
     }
 }

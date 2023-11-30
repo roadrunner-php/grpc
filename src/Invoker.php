@@ -17,13 +17,19 @@ final class Invoker implements InvokerInterface
         'Method %s input type must be an instance of %s, ' .
         'but the input is type of %s';
 
-    public function invoke(ServiceInterface $service, Method $method, ContextInterface $ctx, ?string $input): string
-    {
+    public function invoke(
+        ServiceInterface $service,
+        Method $method,
+        ContextInterface $ctx,
+        string|Message|null $input,
+    ): string {
         /** @var callable $callable */
         $callable = [$service, $method->name];
 
+        $input = $input instanceof Message ? $input : $this->makeInput($method, $input);
+
         /** @var Message $message */
-        $message = $callable($ctx, $this->makeInput($method, $input));
+        $message = $callable($ctx, $input);
 
         \assert($this->assertResultType($method, $message));
 
@@ -45,7 +51,7 @@ final class Invoker implements InvokerInterface
             $type = \get_debug_type($result);
 
             throw new \BadFunctionCallException(
-                \sprintf(self::ERROR_METHOD_RETURN, $method->name, Message::class, $type)
+                \sprintf(self::ERROR_METHOD_RETURN, $method->name, Message::class, $type),
             );
         }
 
@@ -86,7 +92,7 @@ final class Invoker implements InvokerInterface
     {
         if (!\is_subclass_of($class, Message::class)) {
             throw new \InvalidArgumentException(
-                \sprintf(self::ERROR_METHOD_IN_TYPE, $method->name, Message::class, $class)
+                \sprintf(self::ERROR_METHOD_IN_TYPE, $method->name, Message::class, $class),
             );
         }
 
