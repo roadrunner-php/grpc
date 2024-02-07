@@ -24,7 +24,7 @@ application.
 
 ## Documentation
 
-You can find more information about RoadRunner GRPC plugin in the [official documentation](https://roadrunner.dev/docs/plugins-grpc).
+You can find more information about RoadRunner GRPC plugin in the [official documentation](https://docs.roadrunner.dev/plugins/grpc).
 
 ## Example
 
