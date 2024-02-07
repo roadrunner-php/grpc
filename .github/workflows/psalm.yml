@@ -1,7 +1,6 @@
 on:
   push:
     branches:
-      - master
       - '*.*'
   pull_request: null
 
@@ -13,5 +12,3 @@ jobs:
     with:
       os: >-
         ['ubuntu-latest']
-      php: >-
-        ['8.1']
