@@ -45,7 +45,7 @@
         "google/protobuf": "^3.7",
         "spiral/roadrunner-worker": "^3.0",
         "spiral/goridge": "^4.0",
-        "spiral/roadrunner": "^2023.1"
+        "spiral/roadrunner": "^2023.1 || ^2024.1"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
