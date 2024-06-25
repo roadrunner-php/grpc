@@ -104,6 +104,7 @@ final class Server
         $worker ??= Worker::create();
 
         while (true) {
+            $e = null;
             $request = $worker->waitPayload();
 
             if ($request === null) {
