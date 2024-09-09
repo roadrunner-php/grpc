@@ -77,6 +77,11 @@
     "config": {
         "sort-packages": true
     },
+    "extra": {
+        "branch-alias": {
+            "3.x": "3.4.x-dev"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
