@@ -73,19 +73,28 @@ final class Server
             }
 
             $responseHeaders = new ResponseHeaders();
+            $responseTrailers = new ResponseTrailers();
 
             try {
                 $call = CallContext::decode($request->header);
 
-                $context = (new Context($call->context))
-                    ->withValue(ResponseHeaders::class, $responseHeaders);
+                $context = new Context(array_merge(
+                    $call->context,
+                    [
+                        ResponseHeaders::class => $responseHeaders,
+                        ResponseTrailers::class => $responseTrailers
+                    ]
+                ));
 
                 $response = $this->invoke($call->service, $call->method, $context, $request->body);
 
                 $this->workerSend(
                     worker: $worker,
                     body: $response,
-                    headers: $responseHeaders->packHeaders()
+                    headers: Json::encode([
+                        'headers' => $responseHeaders->packHeaders(),
+                        'trailers' => $responseTrailers->packTrailers(),
+                    ]),
                 );
             } catch (GRPCExceptionInterface $e) {
                 $this->workerSend(
@@ -94,6 +103,7 @@ final class Server
                     headers: Json::encode([
                         'error' => $this->createGrpcError($e),
                         'headers' => $responseHeaders->packHeaders(),
+                        'trailers' => $responseTrailers->packTrailers(),
                     ]),
                 );
             } catch (\Throwable $e) {
