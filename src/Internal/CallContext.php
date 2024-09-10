@@ -29,6 +29,13 @@ final class CallContext
      */
     public static function decode(string $payload): self
     {
+        /**
+         * @psalm-var array{
+         *  service: class-string<ServiceInterface>,
+         *  method:  non-empty-string,
+         *  context: array<string, array<string>>
+         * } $data
+         */
         $data = Json::decode($payload);
 
         return new self(
