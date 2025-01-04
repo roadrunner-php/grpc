@@ -30,7 +30,7 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
         string $message = '',
         ?int $code = null,
         private array $details = [],
-        \Throwable $previous = null,
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code ?? static::CODE, $previous);
     }
@@ -44,7 +44,7 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
         string $message,
         #[ExpectedValues(valuesFromClass: StatusCode::class)]
         int $code = self::CODE,
-        \Throwable $previous = null,
+        ?\Throwable $previous = null,
         array $details = [],
     ): self {
         return new static($message, $code, $details, $previous);
