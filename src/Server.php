@@ -39,8 +39,7 @@ final class Server
     public function __construct(
         private readonly InvokerInterface $invoker = new Invoker(),
         private readonly array $options = [],
-    ) {
-    }
+    ) {}
 
     /**
      * Register new GRPC service.
@@ -61,6 +60,56 @@ final class Server
         $service = new ServiceWrapper($this->invoker, $interface, $service);
 
         $this->services[$service->getName()] = $service;
+    }
+
+    /**
+     * Serve GRPC over given RoadRunner worker.
+     */
+    public function serve(?WorkerInterface $worker = null, ?callable $finalize = null): void
+    {
+        $worker ??= Worker::create();
+
+        while (true) {
+            $e = null;
+            $request = $worker->waitPayload();
+
+            if ($request === null) {
+                return;
+            }
+
+            try {
+                /** @var ContextResponse $context */
+                $context = Json::decode($request->header);
+
+                [$answerBody, $answerHeaders] = $this->tick($request->body, $context);
+
+                $this->workerSend($worker, $answerBody, $answerHeaders);
+            } catch (GRPCExceptionInterface $e) {
+                $this->workerGrpcError($worker, $e);
+            } catch (\Throwable $e) {
+                $this->workerError($worker, $this->isDebugMode() ? (string) $e : $e->getMessage());
+            } finally {
+                if ($finalize !== null) {
+                    isset($e) ? $finalize($e) : $finalize();
+                }
+            }
+        }
+    }
+
+    /**
+     * Invoke service method with binary payload and return the response.
+     *
+     * @param class-string<ServiceInterface> $service
+     * @param non-empty-string $method
+     * @throws GRPCException
+     */
+    protected function invoke(string $service, string $method, ContextInterface $context, string $body): string
+    {
+        if (!isset($this->services[$service])) {
+            throw NotFoundException::create("Service `{$service}` not found.", StatusCode::NOT_FOUND);
+        }
+
+        return $this->services[$service]->invoke($method, $context, $body);
     }
 
     /**
@@ -94,56 +143,6 @@ final class Server
     private function workerError(WorkerInterface $worker, string $message): void
     {
         $worker->error($message);
-    }
-
-    /**
-     * Serve GRPC over given RoadRunner worker.
-     */
-    public function serve(?WorkerInterface $worker = null, ?callable $finalize = null): void
-    {
-        $worker ??= Worker::create();
-
-        while (true) {
-            $e = null;
-            $request = $worker->waitPayload();
-
-            if ($request === null) {
-                return;
-            }
-
-            try {
-                /** @var ContextResponse $context */
-                $context = Json::decode($request->header);
-
-                [$answerBody, $answerHeaders] = $this->tick($request->body, $context);
-
-                $this->workerSend($worker, $answerBody, $answerHeaders);
-            } catch (GRPCExceptionInterface $e) {
-                $this->workerGrpcError($worker, $e);
-            } catch (\Throwable $e) {
-                $this->workerError($worker, $this->isDebugMode() ? (string)$e : $e->getMessage());
-            } finally {
-                if ($finalize !== null) {
-                    isset($e) ? $finalize($e) : $finalize();
-                }
-            }
-        }
-    }
-
-    /**
-     * Invoke service method with binary payload and return the response.
-     *
-     * @param class-string<ServiceInterface> $service
-     * @param non-empty-string $method
-     * @throws GRPCException
-     */
-    protected function invoke(string $service, string $method, ContextInterface $context, string $body): string
-    {
-        if (!isset($this->services[$service])) {
-            throw NotFoundException::create("Service `{$service}` not found.", StatusCode::NOT_FOUND);
-        }
-
-        return $this->services[$service]->invoke($method, $context, $body);
     }
 
     private function workerGrpcError(WorkerInterface $worker, GRPCExceptionInterface $e): void

@@ -12,7 +12,6 @@ final class Invoker implements InvokerInterface
     private const ERROR_METHOD_RETURN =
         'Method %s must return an object that instance of %s, ' .
         'but the result provides type of %s';
-
     private const ERROR_METHOD_IN_TYPE =
         'Method %s input type must be an instance of %s, ' .
         'but the input is type of %s';

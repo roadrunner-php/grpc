@@ -16,8 +16,7 @@ final class Context implements ContextInterface, \IteratorAggregate, \Countable,
      */
     public function __construct(
         private array $values,
-    ) {
-    }
+    ) {}
 
     public function withValue(string $key, mixed $value): ContextInterface
     {

@@ -13,7 +13,7 @@ class ContextTest extends TestCase
     public function testGetValue(): void
     {
         $ctx = new Context([
-            'key' => ['value']
+            'key' => ['value'],
         ]);
 
         $this->assertSame(['value'], $ctx->getValue('key'));
@@ -22,7 +22,7 @@ class ContextTest extends TestCase
     public function testGetNullValue(): void
     {
         $ctx = new Context([
-            'key' => ['value']
+            'key' => ['value'],
         ]);
 
         $this->assertSame(null, $ctx->getValue('other'));
@@ -31,19 +31,18 @@ class ContextTest extends TestCase
     public function testGetValues(): void
     {
         $ctx = new Context([
-            'key' => ['value']
+            'key' => ['value'],
         ]);
 
         $this->assertSame([
-            'key' => ['value']
+            'key' => ['value'],
         ], $ctx->getValues());
     }
-
 
     public function testWithValue(): void
     {
         $ctx = new Context([
-            'key' => ['value']
+            'key' => ['value'],
         ]);
 
         $this->assertSame(['value'], $ctx->getValue('key'));
@@ -60,7 +59,7 @@ class ContextTest extends TestCase
     public function testGetOutgoingHeader(): void
     {
         $outgoingHeaders = [
-            'Set-Cookie' => 'foobar'
+            'Set-Cookie' => 'foobar',
         ];
         $ctx = new Context([ResponseHeaders::class => new ResponseHeaders($outgoingHeaders)]);
 
@@ -71,7 +70,7 @@ class ContextTest extends TestCase
     public function testGetOutgoingHeaders(): void
     {
         $outgoingHeaders = new ResponseHeaders([
-            'Set-Cookie' => 'foobar'
+            'Set-Cookie' => 'foobar',
         ]);
         $ctx = new Context([ResponseHeaders::class => $outgoingHeaders]);
         $this->assertSame($outgoingHeaders, $ctx->getValue(ResponseHeaders::class));

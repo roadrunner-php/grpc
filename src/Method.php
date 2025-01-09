@@ -16,24 +16,18 @@ final class Method
     private const ERROR_PARAMS_COUNT =
         'The GRPC method %s can only contain 2 parameters (input and output), but ' .
         'signature contains an %d parameters';
-
     private const ERROR_PARAM_UNION_TYPE =
         'Parameter $%s of the GRPC method %s cannot be declared using union type';
-
     private const ERROR_PARAM_CONTEXT_TYPE =
         'The first parameter $%s of the GRPC method %s can only take an instance of %s';
-
     private const ERROR_PARAM_INPUT_TYPE =
         'The second (input) parameter $%s of the GRPC method %s can only take ' .
         'an instance of %s, but type %s is indicated';
-
     private const ERROR_RETURN_UNION_TYPE =
         'Return type of the GRPC method %s cannot be declared using union type';
-
     private const ERROR_RETURN_TYPE =
         'Return type of the GRPC method %s must return ' .
         'an instance of %s, but type %s is indicated';
-
     private const ERROR_INVALID_GRPC_METHOD = 'Method %s is not valid GRPC method.';
 
     /**
@@ -45,7 +39,44 @@ final class Method
         public readonly string $name,
         public readonly string $inputType,
         public readonly string $outputType,
-    ) {
+    ) {}
+
+    /**
+     * Returns true if method signature matches.
+     */
+    public static function match(\ReflectionMethod $method): bool
+    {
+        try {
+            self::assertMethodSignature($method);
+        } catch (\Throwable) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Creates a new {@see Method} object from a {@see \ReflectionMethod} object.
+     */
+    public static function parse(\ReflectionMethod $method): Method
+    {
+        try {
+            self::assertMethodSignature($method);
+        } catch (\Throwable $e) {
+            $message = \sprintf(self::ERROR_INVALID_GRPC_METHOD, $method->getName());
+            throw GRPCException::create($message, StatusCode::INTERNAL, $e);
+        }
+
+        [, $input] = $method->getParameters();
+
+        /** @var \ReflectionNamedType $inputType */
+        $inputType = $input->getType();
+
+        /** @var \ReflectionNamedType $returnType */
+        $returnType = $method->getReturnType();
+
+        /** @psalm-suppress ArgumentTypeCoercion */
+        return new self($method->getName(), $inputType->getName(), $returnType->getName());
     }
 
     /**
@@ -73,20 +104,6 @@ final class Method
     public function getOutputType(): string
     {
         return $this->outputType;
-    }
-
-    /**
-     * Returns true if method signature matches.
-     */
-    public static function match(\ReflectionMethod $method): bool
-    {
-        try {
-            self::assertMethodSignature($method);
-        } catch (\Throwable) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -230,29 +247,5 @@ final class Method
 
         // The return type must be declared as a Google\Protobuf\Internal\Message class
         self::assertOutputReturnType($method);
-    }
-
-    /**
-     * Creates a new {@see Method} object from a {@see \ReflectionMethod} object.
-     */
-    public static function parse(\ReflectionMethod $method): Method
-    {
-        try {
-            self::assertMethodSignature($method);
-        } catch (\Throwable $e) {
-            $message = \sprintf(self::ERROR_INVALID_GRPC_METHOD, $method->getName());
-            throw GRPCException::create($message, StatusCode::INTERNAL, $e);
-        }
-
-        [, $input] = $method->getParameters();
-
-        /** @var \ReflectionNamedType $inputType */
-        $inputType = $input->getType();
-
-        /** @var \ReflectionNamedType $returnType */
-        $returnType = $method->getReturnType();
-
-        /** @psalm-suppress ArgumentTypeCoercion */
-        return new self($method->getName(), $inputType->getName(), $returnType->getName());
     }
 }

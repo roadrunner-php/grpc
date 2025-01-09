@@ -7,6 +7,4 @@ namespace Spiral\RoadRunner\GRPC;
 /**
  * Indicates that given class expected to be GRPC service.
  */
-interface ServiceInterface
-{
-}
+interface ServiceInterface {}

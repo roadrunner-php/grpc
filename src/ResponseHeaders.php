@@ -39,7 +39,6 @@ final class ResponseHeaders implements \IteratorAggregate, \Countable
 
     /**
      * @param THeaderKey $key
-     * @param string|null $default
      * @return THeaderValue|null
      */
     public function get(string $key, ?string $default = null): ?string
