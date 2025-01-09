@@ -17,6 +17,21 @@
             <exclude>tests/generated</exclude>
         </testsuite>
     </testsuites>
+    <coverage>
+        <report>
+            <html outputDirectory="runtime/phpunit/coverage"/>
+            <text outputFile="runtime/phpunit/coverage.txt"/>
+            <clover outputFile="runtime/phpunit/logs/clover.xml"/>
+        </report>
+    </coverage>
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+        <exclude>
+            <directory>tests</directory>
+        </exclude>
+    </source>
     <php>
         <!-- error_reporting = E_ALL ^ E_DEPRECATED -->
         <ini name="error_reporting" value="24575"/>
