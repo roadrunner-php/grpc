@@ -51,6 +51,8 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^10.0",
+        "spiral/code-style": "^2.2",
+        "spiral/dumper": "^3.3",
         "vimeo/psalm": ">=5.8"
     },
     "autoload": {
@@ -66,8 +68,11 @@
         }
     },
     "scripts": {
-        "tests": "phpunit",
-        "psalm": "psalm --no-cache"
+        "cs:diff": "php-cs-fixer fix --dry-run -v --diff --show-progress dots",
+        "cs:fix": "php-cs-fixer fix -v",
+        "psalm": "psalm",
+        "psalm:baseline": "psalm --set-baseline=psalm-baseline.xml",
+        "tests": "phpunit"
     },
     "config": {
         "sort-packages": true
