@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spiral\RoadRunner\GRPC\Tests\Stub;
 
 use Service\DetailsMessageForException;
@@ -34,9 +36,9 @@ class TestService implements TestInterface
 
                 throw $grpcException;
             case "regularException":
-            {
-                throw new \Exception("Just another exception");
-            }
+                {
+                    throw new \Exception("Just another exception");
+                }
         }
 
         return $out;
@@ -44,7 +46,7 @@ class TestService implements TestInterface
 
     public function Die(ContextInterface $ctx, Message $in): Message
     {
-        error_log($in->getMsg());
+        \error_log($in->getMsg());
 
         return $in;
     }
@@ -55,15 +57,15 @@ class TestService implements TestInterface
         switch ($in->getMsg()) {
             case "RR_GRPC":
             case "ENV_KEY":
-                $out->setMsg(getenv($in->getMsg()));
+                $out->setMsg(\getenv($in->getMsg()));
                 break;
 
             case "PID":
-                $out->setMsg(getmypid());
+                $out->setMsg(\getmypid());
                 break;
 
             case "MD":
-                $out->setMsg(json_encode($ctx->getValue('key')));
+                $out->setMsg(\json_encode($ctx->getValue('key')));
                 break;
         }
 

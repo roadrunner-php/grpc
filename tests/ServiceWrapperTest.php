@@ -20,7 +20,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            new TestService()
+            new TestService(),
         );
 
         $this->assertSame('service.Test', $w->getName());
@@ -31,7 +31,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            $t = new TestService()
+            $t = new TestService(),
         );
 
         $this->assertSame($t, $w->getService());
@@ -42,7 +42,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            new TestService()
+            new TestService(),
         );
 
         $this->assertCount(5, $w->getMethods());
@@ -55,7 +55,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            new TestService()
+            new TestService(),
         );
 
         $w->invoke('NotFound', new Context([]), '');
@@ -66,7 +66,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            new TestService()
+            new TestService(),
         );
 
         $out = $w->invoke('Echo', new Context([]), $this->packMessage('hello world'));
@@ -84,7 +84,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
-            $this
+            $this,
         );
     }
 
@@ -95,7 +95,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             InvalidInterface::class,
-            $this
+            $this,
         );
     }
 
@@ -106,7 +106,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $w = new ServiceWrapper(
             new Invoker(),
             'NotFound',
-            $this
+            $this,
         );
     }
 

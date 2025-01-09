@@ -33,6 +33,6 @@ final class Json
      */
     public static function decode(string $payload): array
     {
-        return (array)\json_decode($payload, true, self::DEFAULT_JSON_DEPTH, self::DEFAULT_JSON_FLAGS);
+        return (array) \json_decode($payload, true, self::DEFAULT_JSON_DEPTH, self::DEFAULT_JSON_FLAGS);
     }
 }

@@ -24,14 +24,7 @@ class ServerTest extends TestCase
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     private Server $server;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->server = new Server();
-        $this->server->registerService(TestInterface::class, new TestService());
-    }
+    private int $obLevel;
 
     public function testInvoke(): void
     {
@@ -41,7 +34,7 @@ class ServerTest extends TestCase
                 'service' => 'service.Test',
                 'method' => 'Echo',
                 'context' => [],
-            ]
+            ],
         );
 
         $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
@@ -49,7 +42,7 @@ class ServerTest extends TestCase
         });
 
         $this->server->serve(
-            new Worker($relay)
+            new Worker($relay),
         );
     }
 
@@ -61,17 +54,17 @@ class ServerTest extends TestCase
                 'service' => 'service.Test2',
                 'method' => 'Echo',
                 'context' => [],
-            ]
+            ],
         );
 
-        $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
-            $error = base64_decode(json_decode($frame->payload, true)['error']);
+        $relay->shouldReceive('send')->once()->withArgs(static function (Frame $frame) {
+            $error = \base64_decode(\json_decode($frame->payload, true)['error']);
 
-            return str_contains($error, 'Service `service.Test2` not found.');
+            return \str_contains($error, 'Service `service.Test2` not found.');
         });
 
         $this->server->serve(
-            new Worker($relay)
+            new Worker($relay),
         );
     }
 
@@ -83,17 +76,17 @@ class ServerTest extends TestCase
                 'service' => 'service.Test',
                 'method' => 'Echo2',
                 'context' => [],
-            ]
+            ],
         );
 
-        $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
-            $error = base64_decode(json_decode($frame->payload, true)['error']);
+        $relay->shouldReceive('send')->once()->withArgs(static function (Frame $frame) {
+            $error = \base64_decode(\json_decode($frame->payload, true)['error']);
 
-            return str_contains($error, 'Method `Echo2` not found in service `service.Test`.');
+            return \str_contains($error, 'Method `Echo2` not found in service `service.Test`.');
         });
 
         $this->server->serve(
-            new Worker($relay)
+            new Worker($relay),
         );
     }
 
@@ -105,15 +98,15 @@ class ServerTest extends TestCase
                 'service' => 'service.Test',
                 'method' => 'Throw',
                 'context' => [],
-            ]
+            ],
         );
 
-        $relay->shouldReceive('send')->once()->withArgs(function (Frame $frame) {
+        $relay->shouldReceive('send')->once()->withArgs(static function (Frame $frame) {
             return $frame->payload === 'Just another exception';
         });
 
         $this->server->serve(
-            new Worker($relay)
+            new Worker($relay),
         );
     }
 
@@ -132,8 +125,8 @@ class ServerTest extends TestCase
 
         $worker->shouldReceive('waitPayload')->once()->andReturnNull();
 
-        $worker->shouldReceive('respond')->once()->withArgs(function (Payload $payload) {
-            $headers = json_decode($payload->header, true);
+        $worker->shouldReceive('respond')->once()->withArgs(static function (Payload $payload) {
+            $headers = \json_decode($payload->header, true);
             $status = new Status();
             $status->mergeFromString(\base64_decode($headers['error']));
 
@@ -150,18 +143,19 @@ class ServerTest extends TestCase
         $server->serve($worker);
     }
 
-    private function packMessage(string $message): string
+    protected function setUp(): void
     {
-        $m = new Message();
-        $m->setMsg($message);
+        parent::setUp();
+        $this->obLevel = \ob_get_level();
 
-        return $m->serializeToString();
+        $this->server = new Server();
+        $this->server->registerService(TestInterface::class, new TestService());
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
-        ob_end_clean();
+        $this->obLevel < \ob_get_level() and \ob_end_clean();
 
         m::close();
     }
@@ -169,18 +163,26 @@ class ServerTest extends TestCase
     protected function createRelay(string $body, array $header): RelayInterface
     {
         $body = $this->packMessage($body);
-        $header = json_encode($header);
+        $header = \json_encode($header);
 
         $relay = m::mock(RelayInterface::class);
         $relay->shouldReceive('waitFrame')->once()->andReturn(
-            new Frame($header . $body, [mb_strlen($header)])
+            new Frame($header . $body, [\mb_strlen($header)]),
         );
 
-        $header = json_encode(['stop' => true]);
+        $header = \json_encode(['stop' => true]);
         $relay->shouldReceive('waitFrame')->once()->andReturn(
-            new Frame($header, [mb_strlen($header)], Frame::CONTROL)
+            new Frame($header, [\mb_strlen($header)], Frame::CONTROL),
         );
 
         return $relay;
+    }
+
+    private function packMessage(string $message): string
+    {
+        $m = new Message();
+        $m->setMsg($message);
+
+        return $m->serializeToString();
     }
 }

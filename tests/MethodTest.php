@@ -71,23 +71,13 @@ class MethodTest extends TestCase
         $this->assertSame(Message::class, $m->outputType);
     }
 
-    public function tM(ContextInterface $context, TestService $input): Message
-    {
-    }
+    public function tM(ContextInterface $context, TestService $input): Message {}
 
-    public function tM2(ContextInterface $context, Message $input): TestService
-    {
-    }
+    public function tM2(ContextInterface $context, Message $input): TestService {}
 
-    public function tM3(TestService $context, Message $input): TestService
-    {
-    }
+    public function tM3(TestService $context, Message $input): TestService {}
 
-    public function tM4(TestService $context, Message $input): Invalid
-    {
-    }
+    public function tM4(TestService $context, Message $input): Invalid {}
 
-    public function tM5(TestService $context, Message $input): void
-    {
-    }
+    public function tM5(TestService $context, Message $input): void {}
 }
