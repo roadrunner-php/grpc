@@ -24,6 +24,7 @@ class ServerTest extends TestCase
     use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     private Server $server;
+    private int $obLevel;
 
     public function testInvoke(): void
     {
@@ -145,6 +146,7 @@ class ServerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->obLevel = \ob_get_level();
 
         $this->server = new Server();
         $this->server->registerService(TestInterface::class, new TestService());
@@ -153,7 +155,7 @@ class ServerTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        \ob_end_clean();
+        $this->obLevel < \ob_get_level() and \ob_end_clean();
 
         m::close();
     }
