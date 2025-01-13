@@ -39,10 +39,9 @@ final class ResponseTrailers implements \IteratorAggregate, \Countable
 
     /**
      * @param THeaderKey $key
-     * @param string|null $default
      * @return THeaderValue|null
      */
-    public function get(string $key, string $default = null): ?string
+    public function get(string $key, ?string $default = null): ?string
     {
         return $this->trailers[$key] ?? $default;
     }

@@ -78,12 +78,12 @@ final class Server
             try {
                 $call = CallContext::decode($request->header);
 
-                $context = new Context(array_merge(
+                $context = new Context(\array_merge(
                     $call->context,
                     [
                         ResponseHeaders::class => $responseHeaders,
-                        ResponseTrailers::class => $responseTrailers
-                    ]
+                        ResponseTrailers::class => $responseTrailers,
+                    ],
                 ));
 
                 $response = $this->invoke($call->service, $call->method, $context, $request->body);

@@ -7,17 +7,18 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 use Google\Rpc\Status;
 use Mockery as m;
 use PHPUnit\Framework\TestCase;
+use Service\DetailsMessageForException;
 use Service\Message;
 use Service\TestInterface;
 use Spiral\Goridge\Frame;
 use Spiral\Goridge\RelayInterface;
 use Spiral\RoadRunner\GRPC\Exception\ServiceException;
+use Spiral\RoadRunner\GRPC\InvokerInterface;
 use Spiral\RoadRunner\GRPC\Server;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
 use Spiral\RoadRunner\WorkerInterface;
-use Spiral\RoadRunner\GRPC\InvokerInterface;
 
 class ServerTest extends TestCase
 {
@@ -141,6 +142,40 @@ class ServerTest extends TestCase
 
         $server->registerService(TestInterface::class, $service);
         $server->serve($worker);
+    }
+
+    public function testInvokeGrpcException(): void
+    {
+        $worker = m::mock(WorkerInterface::class);
+        $worker->shouldReceive('waitPayload')
+            ->times(2)
+            ->andReturn(
+                new Payload(
+                    body: $this->packMessage('withDetailsAndHeaders'),
+                    header: '{"context": {}, "service": "service.Test", "method": "Throw"}',
+                ),
+                null,
+            );
+
+        $worker->shouldReceive('respond')->once()
+            ->withArgs(static function (Payload $payload) {
+                $header = \json_decode($payload->header, true);
+
+                $status = new Status();
+                $status->mergeFromString(\base64_decode($header['error']));
+                /** @var DetailsMessageForException $message */
+                $message = $status->getDetails()->offsetGet(0)->unpack();
+
+                $outgoingHeaders = \json_decode($header['headers'], true);
+                $outgoingTrailers = \json_decode($header['trailers'], true);
+
+                return $message instanceof DetailsMessageForException
+                    && $message->getMessage() === 'details message'
+                    && $outgoingHeaders === ['foo' => 'bar']
+                    && $outgoingTrailers === ['baz' => 'bar'];
+            });
+
+        $this->server->serve($worker);
     }
 
     protected function setUp(): void

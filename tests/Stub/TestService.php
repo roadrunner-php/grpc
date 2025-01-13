@@ -35,6 +35,17 @@ class TestService implements TestInterface
                 $grpcException = new GRPCException("main exception message", 3, [$detailsMessage]);
 
                 throw $grpcException;
+            case "withDetailsAndHeaders":
+                $ctx->getValue(GRPC\ResponseHeaders::class)->set('foo', 'bar');
+                $ctx->getValue(GRPC\ResponseTrailers::class)->set('baz', 'bar');
+
+                $detailsMessage = new DetailsMessageForException();
+                $detailsMessage->setCode(1);
+                $detailsMessage->setMessage("details message");
+
+                $grpcException = new GRPCException("main exception message", 3, [$detailsMessage]);
+
+                throw $grpcException;
             case "regularException":
                 {
                     throw new \Exception("Just another exception");
@@ -70,6 +81,7 @@ class TestService implements TestInterface
         }
 
         $ctx->getValue(GRPC\ResponseHeaders::class)->set('foo', 'bar');
+        $ctx->getValue(GRPC\ResponseTrailers::class)->set('baz', 'bar');
 
         return $out;
     }

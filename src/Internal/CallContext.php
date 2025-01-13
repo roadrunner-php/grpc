@@ -21,8 +21,7 @@ final class CallContext
         public readonly string $service,
         public readonly string $method,
         public readonly array $context,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws \JsonException

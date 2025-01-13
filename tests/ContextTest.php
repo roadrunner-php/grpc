@@ -7,6 +7,7 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 use PHPUnit\Framework\TestCase;
 use Spiral\RoadRunner\GRPC\Context;
 use Spiral\RoadRunner\GRPC\ResponseHeaders;
+use Spiral\RoadRunner\GRPC\ResponseTrailers;
 
 class ContextTest extends TestCase
 {
@@ -74,5 +75,25 @@ class ContextTest extends TestCase
         ]);
         $ctx = new Context([ResponseHeaders::class => $outgoingHeaders]);
         $this->assertSame($outgoingHeaders, $ctx->getValue(ResponseHeaders::class));
+    }
+
+    public function testGetOutgoingTrailer(): void
+    {
+        $outgoingTrailers = [
+            'X-Some-Trailer' => 'foobar',
+        ];
+        $ctx = new Context([ResponseTrailers::class => new ResponseTrailers($outgoingTrailers)]);
+
+        $this->assertSame($outgoingTrailers['X-Some-Trailer'], $ctx->getValue(ResponseTrailers::class)->get('X-Some-Trailer'));
+        $this->assertNull($ctx->getValue(ResponseTrailers::class)->get('not-existing'));
+    }
+
+    public function testGetOutgoingTrailers(): void
+    {
+        $outgoingTrailers = new ResponseTrailers([
+            'X-Some-Trailer' => 'foobar',
+        ]);
+        $ctx = new Context([ResponseTrailers::class => $outgoingTrailers]);
+        $this->assertSame($outgoingTrailers, $ctx->getValue(ResponseTrailers::class));
     }
 }
