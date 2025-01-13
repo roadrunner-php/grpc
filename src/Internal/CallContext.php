@@ -18,9 +18,9 @@ final class CallContext
      * @param array<string, array<string>> $context
      */
     public function __construct(
-        public string $service,
-        public string $method,
-        public array $context,
+        public readonly string $service,
+        public readonly string $method,
+        public readonly array $context,
     ) {
     }
 

@@ -88,22 +88,21 @@ final class Server
 
                 $response = $this->invoke($call->service, $call->method, $context, $request->body);
 
-                $headers = array_filter([
-                    'headers' => $responseHeaders->count() ? $responseHeaders->packHeaders() : null,
-                    'trailers' => $responseTrailers->count() ? $responseTrailers->packTrailers() : null,
-                ]);
+                $headers = [];
+                $responseHeaders->count() === 0 or $headers['headers'] = $responseHeaders->packHeaders();
+                $responseTrailers->count() === 0 or $headers['trailers'] = $responseTrailers->packTrailers();
 
                 $this->workerSend(
                     worker: $worker,
                     body: $response,
-                    headers: !empty($headers) ? Json::encode($headers) : '{}',
+                    headers: $headers === [] ? '{}' : Json::encode($headers),
                 );
             } catch (GRPCExceptionInterface $e) {
-                $headers = array_filter([
+                $headers = [
                     'error' => $this->createGrpcError($e),
-                    'headers' => $responseHeaders->count() ? $responseHeaders->packHeaders() : null,
-                    'trailers' => $responseTrailers->count() ? $responseTrailers->packTrailers() : null,
-                ]);
+                ];
+                $responseHeaders->count() === 0 or $headers['headers'] = $responseHeaders->packHeaders();
+                $responseTrailers->count() === 0 or $headers['trailers'] = $responseTrailers->packTrailers();
 
                 $this->workerSend(
                     worker: $worker,
