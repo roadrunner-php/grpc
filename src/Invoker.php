@@ -16,6 +16,7 @@ final class Invoker implements InvokerInterface
         'Method %s input type must be an instance of %s, ' .
         'but the input is type of %s';
 
+    #[\Override]
     public function invoke(
         ServiceInterface $service,
         Method $method,
