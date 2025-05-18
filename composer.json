@@ -53,6 +53,7 @@
         "phpunit/phpunit": "^10.0",
         "spiral/code-style": "^2.2",
         "spiral/dumper": "^3.3",
+        "symfony/polyfill-php83": "*",
         "vimeo/psalm": ">=5.8"
     },
     "autoload": {
