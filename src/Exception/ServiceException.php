@@ -6,6 +6,9 @@ namespace Spiral\RoadRunner\GRPC\Exception;
 
 use Spiral\RoadRunner\GRPC\StatusCode;
 
+/**
+ * @final
+ */
 class ServiceException extends GRPCException
 {
     /**

@@ -46,11 +46,13 @@ final class ResponseHeaders implements \IteratorAggregate, \Countable
         return $this->headers[$key] ?? $default;
     }
 
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->headers);
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->headers);
