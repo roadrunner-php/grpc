@@ -53,6 +53,7 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
     /**
      * @return Message[]
      */
+    #[\Override]
     public function getDetails(): array
     {
         return $this->details;
@@ -61,11 +62,13 @@ class GRPCException extends \RuntimeException implements MutableGRPCExceptionInt
     /**
      * @param Message[] $details
      */
+    #[\Override]
     public function setDetails(array $details): void
     {
         $this->details = $details;
     }
 
+    #[\Override]
     public function addDetails(Message $message): void
     {
         $this->details[] = $message;

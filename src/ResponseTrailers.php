@@ -46,11 +46,13 @@ final class ResponseTrailers implements \IteratorAggregate, \Countable
         return $this->trailers[$key] ?? $default;
     }
 
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->trailers);
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->trailers);
