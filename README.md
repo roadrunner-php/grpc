@@ -23,8 +23,9 @@ application.
 - debug tools included
 - Prometheus metrics
 - middleware and server customization support
-- code generation using `protoc` plugin (Plugin can be downloaded from the
-  roadrunner [releases page](https://github.com/roadrunner-server/roadrunner/releases))
+- code generation using the `protoc-gen-php-grpc` plugin for `protoc` (download the version matching your
+  RoadRunner, e.g. `protoc-gen-php-grpc-3.0.0-*`, from the roadrunner
+  [releases page](https://github.com/roadrunner-server/roadrunner/releases))
 - transport, message, worker error management
 - response error codes over php exceptions
 - works on Windows

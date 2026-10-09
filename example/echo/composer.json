@@ -10,7 +10,7 @@
     "require": {
         "spiral/roadrunner-grpc": "*",
         "grpc/grpc": "^1.36",
-        "spiral/roadrunner-cli": "^2.0"
+        "spiral/roadrunner-cli": "^2.8"
     },
     "autoload": {
         "psr-4": {
