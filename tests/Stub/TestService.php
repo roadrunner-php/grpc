@@ -15,11 +15,13 @@ use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
 
 class TestService implements TestInterface
 {
+    #[Override]
     public function Echo(ContextInterface $ctx, Message $in): Message
     {
         return $in->setMsg('pong');
     }
 
+    #[Override]
     public function Throw(ContextInterface $ctx, Message $in): Message
     {
         $out = new Message();
@@ -55,6 +57,7 @@ class TestService implements TestInterface
         return $out;
     }
 
+    #[Override]
     public function Die(ContextInterface $ctx, Message $in): Message
     {
         \error_log($in->getMsg());
@@ -62,6 +65,7 @@ class TestService implements TestInterface
         return $in;
     }
 
+    #[Override]
     public function Info(ContextInterface $ctx, Message $in): Message
     {
         $out = new Message();
@@ -86,6 +90,7 @@ class TestService implements TestInterface
         return $out;
     }
 
+    #[Override]
     public function Ping(GRPC\ContextInterface $ctx, EmptyMessage $in): EmptyMessage
     {
         return new EmptyMessage();

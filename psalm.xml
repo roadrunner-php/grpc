@@ -10,18 +10,16 @@
     findUnusedPsalmSuppress="true"
     findUnusedBaselineEntry="true"
     findUnusedCode="false"
-    ensureOverrideAttribute="false"
+    ensureOverrideAttribute="true"
     findUnusedVariablesAndParams="true"
     ensureArrayStringOffsetsExist="true"
     addParamDefaultToDocblockType="true"
 >
     <issueHandlers>
+        <!-- Runtime guards for callers that ignore docblock types (Context offsets, service interface NAME). -->
         <RedundantConditionGivenDocblockType errorLevel="suppress" />
-        <MixedReturnStatement errorLevel="suppress" />
-        <UnusedPsalmSuppress errorLevel="suppress" />
-        <InvalidAttribute errorLevel="suppress" />
-        <UndefinedAttributeClass errorLevel="suppress" />
         <DocblockTypeContradiction errorLevel="suppress" />
+        <!-- Typed class constants need PHP 8.3, the package supports 8.2. -->
         <MissingClassConstType errorLevel="suppress" />
     </issueHandlers>
     <projectFiles>

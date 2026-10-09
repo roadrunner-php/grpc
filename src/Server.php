@@ -140,9 +140,6 @@ final class Server
         $worker->error($message);
     }
 
-    /**
-     * @psalm-suppress InaccessibleMethod
-     */
     private function workerSend(WorkerInterface $worker, string $body, string $headers): void
     {
         $worker->respond(new Payload($body, $headers));
