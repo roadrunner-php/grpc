@@ -6,7 +6,6 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 
 use Google\Rpc\Status;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use Service\DetailsMessageForException;
 use Service\Message;
 use Service\TestInterface;
@@ -19,11 +18,13 @@ use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
 use Spiral\RoadRunner\WorkerInterface;
+use Testo\Lifecycle\AfterTest;
+use Testo\Lifecycle\BeforeTest;
+use Testo\Test;
 
-class ServerTest extends TestCase
+#[Test]
+final class ServerTest
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     private Server $server;
     private int $obLevel;
 
@@ -178,21 +179,19 @@ class ServerTest extends TestCase
         $this->server->serve($worker);
     }
 
+    #[BeforeTest]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->obLevel = \ob_get_level();
 
         $this->server = new Server();
         $this->server->registerService(TestInterface::class, new TestService());
     }
 
+    #[AfterTest]
     protected function tearDown(): void
     {
-        parent::tearDown();
         $this->obLevel < \ob_get_level() and \ob_end_clean();
-
-        m::close();
     }
 
     protected function createRelay(string $body, array $header): RelayInterface

@@ -50,11 +50,12 @@
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
-        "mockery/mockery": "^1.4",
-        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6",
         "spiral/code-style": "^2.3.1",
         "spiral/dumper": "^3.3",
-        "vimeo/psalm": ">=5.8"
+        "testo/bridge-mockery": "^0.1.2",
+        "testo/testo": "^0.10.55",
+        "vimeo/psalm": "^6 || ^7"
     },
     "autoload": {
         "psr-4": {
@@ -73,7 +74,7 @@
         "cs:fix": "php-cs-fixer fix -v",
         "psalm": "psalm",
         "psalm:baseline": "psalm --set-baseline=psalm-baseline.xml",
-        "tests": "phpunit"
+        "test": "testo"
     },
     "config": {
         "audit": {
