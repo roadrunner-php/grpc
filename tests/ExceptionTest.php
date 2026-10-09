@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
+use Service\Message;
 use Spiral\RoadRunner\GRPC\Exception\GRPCException;
 use Spiral\RoadRunner\GRPC\Exception\InvokeException;
 use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
@@ -44,5 +45,35 @@ final class ExceptionTest
     {
         $e = new UnimplementedException();
         Assert::same($e->getCode(), StatusCode::UNIMPLEMENTED);
+    }
+
+    public function testCreate(): void
+    {
+        $previous = new \RuntimeException('cause');
+        $details = [new Message()];
+
+        $e = NotFoundException::create('missing', StatusCode::ABORTED, $previous, $details);
+
+        Assert::instanceOf($e, NotFoundException::class);
+        Assert::same($e->getMessage(), 'missing');
+        Assert::same($e->getCode(), StatusCode::ABORTED);
+        Assert::same($e->getPrevious(), $previous);
+        Assert::same($e->getDetails(), $details);
+    }
+
+    public function testDetails(): void
+    {
+        $first = new Message();
+        $second = new Message();
+        $third = new Message();
+        $e = new GRPCException('error', null, [$first]);
+
+        $e->addDetails($second);
+
+        Assert::same($e->getDetails(), [$first, $second]);
+
+        $e->setDetails([$third]);
+
+        Assert::same($e->getDetails(), [$third]);
     }
 }

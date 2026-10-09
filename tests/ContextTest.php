@@ -98,4 +98,47 @@ final class ContextTest
         $ctx = new Context([ResponseTrailers::class => $outgoingTrailers]);
         Assert::same($ctx->getValue(ResponseTrailers::class), $outgoingTrailers);
     }
+
+    public function testGetValueDefault(): void
+    {
+        $ctx = new Context([]);
+
+        Assert::same($ctx->getValue('missing', 'default'), 'default');
+    }
+
+    public function testWithValueKeepsOriginalImmutable(): void
+    {
+        $ctx = new Context(['key' => 'value']);
+
+        $ctx2 = $ctx->withValue('key', 'changed');
+
+        Assert::notSame($ctx2, $ctx);
+        Assert::same($ctx->getValues(), ['key' => 'value']);
+        Assert::same($ctx2->getValues(), ['key' => 'changed']);
+    }
+
+    public function testArrayAccess(): void
+    {
+        $ctx = new Context(['key' => 'value', 'nullable' => null]);
+
+        Assert::true(isset($ctx['key']));
+        Assert::true($ctx->offsetExists('nullable'));
+        Assert::false(isset($ctx['missing']));
+        Assert::same($ctx['key'], 'value');
+        Assert::null($ctx['missing']);
+
+        $ctx['new'] = 'another';
+        unset($ctx['key']);
+
+        Assert::same($ctx->getValues(), ['nullable' => null, 'new' => 'another']);
+    }
+
+    public function testIterateAndCount(): void
+    {
+        $values = ['first' => 1, 'second' => [2]];
+        $ctx = new Context($values);
+
+        Assert::same(\iterator_to_array($ctx), $values);
+        Assert::count($ctx, 2);
+    }
 }

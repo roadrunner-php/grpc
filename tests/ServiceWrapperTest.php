@@ -7,9 +7,11 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 use Service\Message;
 use Service\TestInterface;
 use Spiral\RoadRunner\GRPC\Context;
+use Spiral\RoadRunner\GRPC\Exception\ServiceException;
 use Spiral\RoadRunner\GRPC\Invoker;
 use Spiral\RoadRunner\GRPC\ServiceInterface;
 use Spiral\RoadRunner\GRPC\ServiceWrapper;
+use Spiral\RoadRunner\GRPC\Tests\Stub\NonStringNameInterface;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Testo\Assert;
 use Testo\Assert\ExpectException;
@@ -99,6 +101,14 @@ final class ServiceWrapperTest implements ServiceInterface
             InvalidInterface::class,
             $this,
         );
+    }
+
+    public function testNonStringServiceName(): never
+    {
+        Expect::exception(ServiceException::class)
+            ->withMessage('Constant `NAME` of service interface `' . NonStringNameInterface::class . '` must be a type of string');
+
+        new ServiceWrapper(new Invoker(), NonStringNameInterface::class, $this);
     }
 
     #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
