@@ -15,6 +15,7 @@
 [![Psalm Level](https://shepherd.dev/github/roadrunner-php/grpc/level.svg)](https://shepherd.dev/github/roadrunner-php/grpc)
 [![Type Coverage](https://shepherd.dev/github/roadrunner-php/grpc/coverage.svg)](https://shepherd.dev/github/roadrunner-php/grpc)
 [![Codecov](https://codecov.io/gh/roadrunner-php/grpc/branch/3.x/graph/badge.svg)](https://codecov.io/gh/roadrunner-php/grpc/)
+[![Mutation testing badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Froadrunner-php%2Fgrpc%2F3.x)](https://dashboard.stryker-mutator.io/reports/github.com/roadrunner-php/grpc/3.x)
 
 </div>
 

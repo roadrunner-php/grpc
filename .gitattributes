@@ -7,4 +7,5 @@
 /*.yml   export-ignore
 /*.lock  export-ignore
 /*.dist  export-ignore
+/*.json5 export-ignore
 /*.php   export-ignore
