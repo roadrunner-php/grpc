@@ -46,7 +46,7 @@
         "spiral/roadrunner-worker": "^3.0",
         "spiral/goridge": "^4.0",
         "spiral/roadrunner": "^2024.3 || ^2025.1",
-        "symfony/polyfill-php83": "*"
+        "symfony/polyfill-php83": "^1.27"
     },
     "require-dev": {
         "jetbrains/phpstorm-attributes": "^1.0",
@@ -76,6 +76,11 @@
         "tests": "phpunit"
     },
     "config": {
+        "audit": {
+            "ignore": {
+                "GHSA-g9pc-8g42-g6vq": "False positive: the range < 2025.1.0 also matches RoadRunner 3.x, which is not affected"
+            }
+        },
         "sort-packages": true
     },
     "minimum-stability": "dev",
