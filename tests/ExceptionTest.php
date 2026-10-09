@@ -4,43 +4,45 @@ declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Spiral\RoadRunner\GRPC\Exception\GRPCException;
 use Spiral\RoadRunner\GRPC\Exception\InvokeException;
 use Spiral\RoadRunner\GRPC\Exception\NotFoundException;
 use Spiral\RoadRunner\GRPC\Exception\UnauthenticatedException;
 use Spiral\RoadRunner\GRPC\Exception\UnimplementedException;
 use Spiral\RoadRunner\GRPC\StatusCode;
+use Testo\Assert;
+use Testo\Test;
 
-class ExceptionTest extends TestCase
+#[Test]
+final class ExceptionTest
 {
     public function testDefault(): void
     {
         $e = new GRPCException();
-        $this->assertSame(StatusCode::UNKNOWN, $e->getCode());
+        Assert::same($e->getCode(), StatusCode::UNKNOWN);
     }
 
     public function testNotFound(): void
     {
         $e = new NotFoundException();
-        $this->assertSame(StatusCode::NOT_FOUND, $e->getCode());
+        Assert::same($e->getCode(), StatusCode::NOT_FOUND);
     }
 
     public function testInvoke(): void
     {
         $e = new InvokeException();
-        $this->assertSame(StatusCode::UNAVAILABLE, $e->getCode());
+        Assert::same($e->getCode(), StatusCode::UNAVAILABLE);
     }
 
     public function testUnauthenticated(): void
     {
         $e = new UnauthenticatedException();
-        $this->assertSame(StatusCode::UNAUTHENTICATED, $e->getCode());
+        Assert::same($e->getCode(), StatusCode::UNAUTHENTICATED);
     }
 
     public function testUnimplemented(): void
     {
         $e = new UnimplementedException();
-        $this->assertSame(StatusCode::UNIMPLEMENTED, $e->getCode());
+        Assert::same($e->getCode(), StatusCode::UNIMPLEMENTED);
     }
 }

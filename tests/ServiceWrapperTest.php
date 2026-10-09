@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Service\Message;
 use Service\TestInterface;
 use Spiral\RoadRunner\GRPC\Context;
@@ -12,8 +11,13 @@ use Spiral\RoadRunner\GRPC\Invoker;
 use Spiral\RoadRunner\GRPC\ServiceInterface;
 use Spiral\RoadRunner\GRPC\ServiceWrapper;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
+use Testo\Assert;
+use Testo\Assert\ExpectException;
+use Testo\Expect;
+use Testo\Test;
 
-class ServiceWrapperTest extends TestCase implements ServiceInterface
+#[Test]
+final class ServiceWrapperTest implements ServiceInterface
 {
     public function testName(): void
     {
@@ -23,7 +27,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
             new TestService(),
         );
 
-        $this->assertSame('service.Test', $w->getName());
+        Assert::same($w->getName(), 'service.Test');
     }
 
     public function testService(): void
@@ -34,7 +38,7 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
             $t = new TestService(),
         );
 
-        $this->assertSame($t, $w->getService());
+        Assert::same($w->getService(), $t);
     }
 
     public function testMethods(): void
@@ -45,12 +49,12 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
             new TestService(),
         );
 
-        $this->assertCount(5, $w->getMethods());
+        Assert::count($w->getMethods(), 5);
     }
 
     public function testInvokeNotFound(): void
     {
-        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\NotFoundException::class);
+        Expect::exception(\Spiral\RoadRunner\GRPC\Exception\NotFoundException::class);
 
         $w = new ServiceWrapper(
             new Invoker(),
@@ -74,13 +78,12 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         $m = new Message();
         $m->mergeFromString($out);
 
-        $this->assertSame('pong', $m->getMsg());
+        Assert::same($m->getMsg(), 'pong');
     }
 
+    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
     public function testNotImplemented(): void
     {
-        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
-
         $w = new ServiceWrapper(
             new Invoker(),
             TestInterface::class,
@@ -88,10 +91,9 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         );
     }
 
+    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
     public function testInvalidInterface(): void
     {
-        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
-
         $w = new ServiceWrapper(
             new Invoker(),
             InvalidInterface::class,
@@ -99,10 +101,9 @@ class ServiceWrapperTest extends TestCase implements ServiceInterface
         );
     }
 
+    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
     public function testInvalidInterface2(): void
     {
-        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class);
-
         $w = new ServiceWrapper(
             new Invoker(),
             'NotFound',

@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Service\Message;
 use Spiral\RoadRunner\GRPC\Context;
 use Spiral\RoadRunner\GRPC\Invoker;
 use Spiral\RoadRunner\GRPC\Method;
 use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
+use Testo\Assert;
+use Testo\Expect;
+use Testo\Test;
 
-class InvokerTest extends TestCase
+#[Test]
+final class InvokerTest
 {
     public function testInvoke(): void
     {
@@ -25,7 +28,7 @@ class InvokerTest extends TestCase
         $m = new Message();
         $m->mergeFromString($out);
 
-        $this->assertSame('pong', $m->getMsg());
+        Assert::same($m->getMsg(), 'pong');
     }
 
     public function testInvokeWithInputMessage(): void
@@ -40,12 +43,12 @@ class InvokerTest extends TestCase
         $m = new Message();
         $m->mergeFromString($out);
 
-        $this->assertSame('pong', $m->getMsg());
+        Assert::same($m->getMsg(), 'pong');
     }
 
     public function testInvokeError(): void
     {
-        $this->expectException(\Spiral\RoadRunner\GRPC\Exception\InvokeException::class);
+        Expect::exception(\Spiral\RoadRunner\GRPC\Exception\InvokeException::class);
 
         $s = new TestService();
         $m = Method::parse(new \ReflectionMethod($s, 'Echo'));

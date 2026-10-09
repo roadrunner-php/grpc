@@ -4,11 +4,11 @@ on:
       - 3.x
   pull_request: null
 
-name: static analysis
+name: testo
 
 jobs:
-  psalm:
-    uses: spiral/gh-actions/.github/workflows/psalm.yml@master
+  testo:
+    uses: spiral/gh-actions/.github/workflows/testo.yml@master
     with:
       os: >-
         ['ubuntu-latest']
