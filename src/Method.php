@@ -124,7 +124,6 @@ final class Method
             // If the type is not declared as a generic "mixed" or "object",
             // then it can only be a type that implements ContextInterface.
             if (!\in_array($type->getName(), ['mixed', 'object'], true)) {
-                /** @psalm-suppress ArgumentTypeCoercion */
                 $isContextImplementedType = !$type->isBuiltin()
                     && (new \ReflectionClass($type->getName()))->implementsInterface(ContextInterface::class);
 
@@ -172,7 +171,6 @@ final class Method
             throw new \DomainException($message, 0x05);
         }
 
-        /** @psalm-suppress ArgumentTypeCoercion */
         $isProtobufMessageType = !$type->isBuiltin()
             && (new \ReflectionClass($type->getName()))
                 ->isSubclassOf(Message::class);
@@ -207,7 +205,6 @@ final class Method
             throw new \DomainException($message, 0x08);
         }
 
-        /** @psalm-suppress ArgumentTypeCoercion */
         $isProtobufMessageType = !$type->isBuiltin()
             && (new \ReflectionClass($type->getName()))->isSubclassOf(Message::class);
 

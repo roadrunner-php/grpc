@@ -1,7 +1,9 @@
-on:
+---
+
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
-      - '*'
+      - '**'
 
 name: Fix Code Style
 
@@ -10,3 +12,6 @@ jobs:
     permissions:
       contents: write
     uses: spiral/gh-actions/.github/workflows/cs-fix.yml@master
+    with:
+      php: >-
+        ['8.4']

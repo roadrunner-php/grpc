@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Spiral\RoadRunner\GRPC\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Spiral\RoadRunner\GRPC\Context;
 use Spiral\RoadRunner\GRPC\ResponseHeaders;
 use Spiral\RoadRunner\GRPC\ResponseTrailers;
+use Testo\Assert;
+use Testo\Test;
 
-class ContextTest extends TestCase
+#[Test]
+final class ContextTest
 {
     public function testGetValue(): void
     {
@@ -17,7 +19,7 @@ class ContextTest extends TestCase
             'key' => ['value'],
         ]);
 
-        $this->assertSame(['value'], $ctx->getValue('key'));
+        Assert::same($ctx->getValue('key'), ['value']);
     }
 
     public function testGetNullValue(): void
@@ -26,7 +28,7 @@ class ContextTest extends TestCase
             'key' => ['value'],
         ]);
 
-        $this->assertSame(null, $ctx->getValue('other'));
+        Assert::same($ctx->getValue('other'), null);
     }
 
     public function testGetValues(): void
@@ -35,9 +37,9 @@ class ContextTest extends TestCase
             'key' => ['value'],
         ]);
 
-        $this->assertSame([
+        Assert::same($ctx->getValues(), [
             'key' => ['value'],
-        ], $ctx->getValues());
+        ]);
     }
 
     public function testWithValue(): void
@@ -46,15 +48,15 @@ class ContextTest extends TestCase
             'key' => ['value'],
         ]);
 
-        $this->assertSame(['value'], $ctx->getValue('key'));
+        Assert::same($ctx->getValue('key'), ['value']);
 
         $ctx2 = $ctx->withValue('new', 'another')->withValue('key', ['value2']);
 
-        $this->assertSame(['value'], $ctx->getValue('key'));
-        $this->assertSame(null, $ctx->getValue('new'));
+        Assert::same($ctx->getValue('key'), ['value']);
+        Assert::same($ctx->getValue('new'), null);
 
-        $this->assertSame(['value2'], $ctx2->getValue('key'));
-        $this->assertSame('another', $ctx2->getValue('new'));
+        Assert::same($ctx2->getValue('key'), ['value2']);
+        Assert::same($ctx2->getValue('new'), 'another');
     }
 
     public function testGetOutgoingHeader(): void
@@ -64,8 +66,8 @@ class ContextTest extends TestCase
         ];
         $ctx = new Context([ResponseHeaders::class => new ResponseHeaders($outgoingHeaders)]);
 
-        $this->assertSame($outgoingHeaders['Set-Cookie'], $ctx->getValue(ResponseHeaders::class)->get('Set-Cookie'));
-        $this->assertNull($ctx->getValue(ResponseHeaders::class)->get('not-existing'));
+        Assert::same($ctx->getValue(ResponseHeaders::class)->get('Set-Cookie'), $outgoingHeaders['Set-Cookie']);
+        Assert::null($ctx->getValue(ResponseHeaders::class)->get('not-existing'));
     }
 
     public function testGetOutgoingHeaders(): void
@@ -74,7 +76,7 @@ class ContextTest extends TestCase
             'Set-Cookie' => 'foobar',
         ]);
         $ctx = new Context([ResponseHeaders::class => $outgoingHeaders]);
-        $this->assertSame($outgoingHeaders, $ctx->getValue(ResponseHeaders::class));
+        Assert::same($ctx->getValue(ResponseHeaders::class), $outgoingHeaders);
     }
 
     public function testGetOutgoingTrailer(): void
@@ -84,8 +86,8 @@ class ContextTest extends TestCase
         ];
         $ctx = new Context([ResponseTrailers::class => new ResponseTrailers($outgoingTrailers)]);
 
-        $this->assertSame($outgoingTrailers['X-Some-Trailer'], $ctx->getValue(ResponseTrailers::class)->get('X-Some-Trailer'));
-        $this->assertNull($ctx->getValue(ResponseTrailers::class)->get('not-existing'));
+        Assert::same($ctx->getValue(ResponseTrailers::class)->get('X-Some-Trailer'), $outgoingTrailers['X-Some-Trailer']);
+        Assert::null($ctx->getValue(ResponseTrailers::class)->get('not-existing'));
     }
 
     public function testGetOutgoingTrailers(): void
@@ -94,6 +96,49 @@ class ContextTest extends TestCase
             'X-Some-Trailer' => 'foobar',
         ]);
         $ctx = new Context([ResponseTrailers::class => $outgoingTrailers]);
-        $this->assertSame($outgoingTrailers, $ctx->getValue(ResponseTrailers::class));
+        Assert::same($ctx->getValue(ResponseTrailers::class), $outgoingTrailers);
+    }
+
+    public function testGetValueDefault(): void
+    {
+        $ctx = new Context([]);
+
+        Assert::same($ctx->getValue('missing', 'default'), 'default');
+    }
+
+    public function testWithValueKeepsOriginalImmutable(): void
+    {
+        $ctx = new Context(['key' => 'value']);
+
+        $ctx2 = $ctx->withValue('key', 'changed');
+
+        Assert::notSame($ctx2, $ctx);
+        Assert::same($ctx->getValues(), ['key' => 'value']);
+        Assert::same($ctx2->getValues(), ['key' => 'changed']);
+    }
+
+    public function testArrayAccess(): void
+    {
+        $ctx = new Context(['key' => 'value', 'nullable' => null]);
+
+        Assert::true(isset($ctx['key']));
+        Assert::true($ctx->offsetExists('nullable'));
+        Assert::false(isset($ctx['missing']));
+        Assert::same($ctx['key'], 'value');
+        Assert::null($ctx['missing']);
+
+        $ctx['new'] = 'another';
+        unset($ctx['key']);
+
+        Assert::same($ctx->getValues(), ['nullable' => null, 'new' => 'another']);
+    }
+
+    public function testIterateAndCount(): void
+    {
+        $values = ['first' => 1, 'second' => [2]];
+        $ctx = new Context($values);
+
+        Assert::same(\iterator_to_array($ctx), $values);
+        Assert::count($ctx, 2);
     }
 }

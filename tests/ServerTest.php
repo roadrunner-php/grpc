@@ -6,7 +6,6 @@ namespace Spiral\RoadRunner\GRPC\Tests;
 
 use Google\Rpc\Status;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
 use Service\DetailsMessageForException;
 use Service\Message;
 use Service\TestInterface;
@@ -19,11 +18,14 @@ use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
 use Spiral\RoadRunner\WorkerInterface;
+use Testo\Assert;
+use Testo\Lifecycle\AfterTest;
+use Testo\Lifecycle\BeforeTest;
+use Testo\Test;
 
-class ServerTest extends TestCase
+#[Test]
+final class ServerTest
 {
-    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
     private Server $server;
     private int $obLevel;
 
@@ -111,6 +113,70 @@ class ServerTest extends TestCase
         );
     }
 
+    public function testServerDebugModeEnabled(): void
+    {
+        $relay = $this->createRelay(
+            'regularException',
+            [
+                'service' => 'service.Test',
+                'method' => 'Throw',
+                'context' => [],
+            ],
+        );
+
+        $relay->shouldReceive('send')->once()->withArgs(static function (Frame $frame) {
+            return \str_starts_with($frame->payload, 'Exception: Just another exception in ')
+                && \str_contains($frame->payload, 'Stack trace:');
+        });
+
+        $server = new Server(options: ['debug' => true]);
+        $server->registerService(TestInterface::class, new TestService());
+        $server->serve(new Worker($relay));
+    }
+
+    public function testFinalizeAfterSuccess(): void
+    {
+        $relay = $this->createRelay(
+            'ping',
+            [
+                'service' => 'service.Test',
+                'method' => 'Echo',
+                'context' => [],
+            ],
+        );
+        $relay->shouldReceive('send')->once();
+        $calls = [];
+
+        $this->server->serve(new Worker($relay), static function (mixed ...$args) use (&$calls): void {
+            $calls[] = $args;
+        });
+
+        Assert::same($calls, [[]]);
+    }
+
+    public function testFinalizeAfterError(): void
+    {
+        $relay = $this->createRelay(
+            'regularException',
+            [
+                'service' => 'service.Test',
+                'method' => 'Throw',
+                'context' => [],
+            ],
+        );
+        $relay->shouldReceive('send')->once();
+        $calls = [];
+
+        $this->server->serve(new Worker($relay), static function (mixed ...$args) use (&$calls): void {
+            $calls[] = $args;
+        });
+
+        Assert::count($calls, 1);
+        Assert::count($calls[0], 1);
+        Assert::instanceOf($calls[0][0], \Exception::class);
+        Assert::same($calls[0][0]->getMessage(), 'Just another exception');
+    }
+
     public function testExceptionDetails(): void
     {
         $error = new Message();
@@ -178,21 +244,19 @@ class ServerTest extends TestCase
         $this->server->serve($worker);
     }
 
+    #[BeforeTest]
     protected function setUp(): void
     {
-        parent::setUp();
         $this->obLevel = \ob_get_level();
 
         $this->server = new Server();
         $this->server->registerService(TestInterface::class, new TestService());
     }
 
+    #[AfterTest]
     protected function tearDown(): void
     {
-        parent::tearDown();
         $this->obLevel < \ob_get_level() and \ob_end_clean();
-
-        m::close();
     }
 
     protected function createRelay(string $body, array $header): RelayInterface
