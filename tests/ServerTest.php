@@ -18,6 +18,7 @@ use Spiral\RoadRunner\GRPC\Tests\Stub\TestService;
 use Spiral\RoadRunner\Payload;
 use Spiral\RoadRunner\Worker;
 use Spiral\RoadRunner\WorkerInterface;
+use Testo\Assert;
 use Testo\Lifecycle\AfterTest;
 use Testo\Lifecycle\BeforeTest;
 use Testo\Test;
@@ -110,6 +111,70 @@ final class ServerTest
         $this->server->serve(
             new Worker($relay),
         );
+    }
+
+    public function testServerDebugModeEnabled(): void
+    {
+        $relay = $this->createRelay(
+            'regularException',
+            [
+                'service' => 'service.Test',
+                'method' => 'Throw',
+                'context' => [],
+            ],
+        );
+
+        $relay->shouldReceive('send')->once()->withArgs(static function (Frame $frame) {
+            return \str_starts_with($frame->payload, 'Exception: Just another exception in ')
+                && \str_contains($frame->payload, 'Stack trace:');
+        });
+
+        $server = new Server(options: ['debug' => true]);
+        $server->registerService(TestInterface::class, new TestService());
+        $server->serve(new Worker($relay));
+    }
+
+    public function testFinalizeAfterSuccess(): void
+    {
+        $relay = $this->createRelay(
+            'ping',
+            [
+                'service' => 'service.Test',
+                'method' => 'Echo',
+                'context' => [],
+            ],
+        );
+        $relay->shouldReceive('send')->once();
+        $calls = [];
+
+        $this->server->serve(new Worker($relay), static function (mixed ...$args) use (&$calls): void {
+            $calls[] = $args;
+        });
+
+        Assert::same($calls, [[]]);
+    }
+
+    public function testFinalizeAfterError(): void
+    {
+        $relay = $this->createRelay(
+            'regularException',
+            [
+                'service' => 'service.Test',
+                'method' => 'Throw',
+                'context' => [],
+            ],
+        );
+        $relay->shouldReceive('send')->once();
+        $calls = [];
+
+        $this->server->serve(new Worker($relay), static function (mixed ...$args) use (&$calls): void {
+            $calls[] = $args;
+        });
+
+        Assert::count($calls, 1);
+        Assert::count($calls[0], 1);
+        Assert::instanceOf($calls[0][0], \Exception::class);
+        Assert::same($calls[0][0]->getMessage(), 'Just another exception');
     }
 
     public function testExceptionDetails(): void
