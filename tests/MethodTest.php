@@ -21,7 +21,7 @@ use Testo\Test;
 final class MethodTest
 {
     #[Test]
-    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\GRPCException::class)]
+    #[ExpectException(GRPCException::class)]
     public function testInvalidParse(): void
     {
         Method::parse(new \ReflectionMethod($this, 'testInvalidParse'));
