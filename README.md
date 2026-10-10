@@ -29,13 +29,13 @@ It runs your PHP gRPC services inside RoadRunner workers, so PHP and Golang serv
 ### Installation
 
 ```bash
-composer require spiral/roadrunner-grpc
+composer require roadrunner/grpc
 ```
 
-[![PHP](https://img.shields.io/packagist/php-v/spiral/roadrunner-grpc.svg?style=flat-square&logo=php)](https://packagist.org/packages/spiral/roadrunner-grpc)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral/roadrunner-grpc.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/spiral/roadrunner-grpc)
-[![License](https://img.shields.io/packagist/l/spiral/roadrunner-grpc.svg?style=flat-square)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/spiral/roadrunner-grpc.svg?style=flat-square)](https://packagist.org/packages/spiral/roadrunner-grpc/stats)
+[![PHP](https://img.shields.io/packagist/php-v/roadrunner/grpc.svg?style=flat-square&logo=php)](https://packagist.org/packages/roadrunner/grpc)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/roadrunner/grpc.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/roadrunner/grpc)
+[![License](https://img.shields.io/packagist/l/roadrunner/grpc.svg?style=flat-square)](LICENSE)
+[![Total Downloads](https://img.shields.io/packagist/dt/roadrunner/grpc.svg?style=flat-square)](https://packagist.org/packages/roadrunner/grpc/stats)
 
 ### Configuration
 
@@ -113,7 +113,9 @@ Then run `rr serve`. A complete echo service with a client is in the [example](.
 - debug tools included
 - Prometheus metrics
 - middleware and server customization support
-- code generation using `protoc` plugin
+- code generation using the `protoc-gen-php-grpc` plugin for `protoc` (download the version matching your
+  RoadRunner, e.g. `protoc-gen-php-grpc-3.0.0-*`, from the roadrunner
+  [releases page](https://github.com/roadrunner-server/roadrunner/releases))
 - transport, message, worker error management
 - response error codes over php exceptions
 - works on Windows
