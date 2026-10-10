@@ -83,7 +83,7 @@ final class ServiceWrapperTest implements ServiceInterface
         Assert::same($m->getMsg(), 'pong');
     }
 
-    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
+    #[ExpectException(ServiceException::class)]
     public function testNotImplemented(): void
     {
         $w = new ServiceWrapper(
@@ -93,7 +93,7 @@ final class ServiceWrapperTest implements ServiceInterface
         );
     }
 
-    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
+    #[ExpectException(ServiceException::class)]
     public function testInvalidInterface(): void
     {
         $w = new ServiceWrapper(
@@ -111,7 +111,7 @@ final class ServiceWrapperTest implements ServiceInterface
         new ServiceWrapper(new Invoker(), NonStringNameInterface::class, $this);
     }
 
-    #[ExpectException(\Spiral\RoadRunner\GRPC\Exception\ServiceException::class)]
+    #[ExpectException(ServiceException::class)]
     public function testInvalidInterface2(): void
     {
         $w = new ServiceWrapper(

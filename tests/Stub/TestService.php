@@ -91,7 +91,7 @@ class TestService implements TestInterface
     }
 
     #[Override]
-    public function Ping(GRPC\ContextInterface $ctx, EmptyMessage $in): EmptyMessage
+    public function Ping(ContextInterface $ctx, EmptyMessage $in): EmptyMessage
     {
         return new EmptyMessage();
     }
