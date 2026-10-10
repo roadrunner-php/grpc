@@ -29,13 +29,13 @@ It runs your PHP gRPC services inside RoadRunner workers, so PHP and Golang serv
 ### Installation
 
 ```bash
-composer require spiral/roadrunner-grpc
+composer require roadrunner/grpc
 ```
 
-[![PHP](https://img.shields.io/packagist/php-v/spiral/roadrunner-grpc.svg?style=flat-square&logo=php)](https://packagist.org/packages/spiral/roadrunner-grpc)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral/roadrunner-grpc.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/spiral/roadrunner-grpc)
-[![License](https://img.shields.io/packagist/l/spiral/roadrunner-grpc.svg?style=flat-square)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/spiral/roadrunner-grpc.svg?style=flat-square)](https://packagist.org/packages/spiral/roadrunner-grpc/stats)
+[![PHP](https://img.shields.io/packagist/php-v/roadrunner/grpc.svg?style=flat-square&logo=php)](https://packagist.org/packages/roadrunner/grpc)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/roadrunner/grpc.svg?style=flat-square&logo=packagist)](https://packagist.org/packages/roadrunner/grpc)
+[![License](https://img.shields.io/packagist/l/roadrunner/grpc.svg?style=flat-square)](LICENSE)
+[![Total Downloads](https://img.shields.io/packagist/dt/roadrunner/grpc.svg?style=flat-square)](https://packagist.org/packages/roadrunner/grpc/stats)
 
 ### Configuration
 

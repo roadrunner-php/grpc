@@ -1,34 +1,43 @@
 {
-    "name": "spiral/roadrunner-grpc",
+    "name": "roadrunner/grpc",
     "type": "library",
-    "description": "High-Performance GRPC server for PHP applications",
+    "description": "gRPC server for PHP: serve gRPC services from RoadRunner PHP workers",
+    "keywords": [
+        "roadrunner",
+        "grpc",
+        "protobuf",
+        "rpc",
+        "server",
+        "microservices"
+    ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Anton Titov (wolfy-j)",
-            "email": "wolfy-j@spiralscout.com"
+            "name": "Anton Titov",
+            "homepage": "https://github.com/wolfy-j"
         },
         {
-            "name": "Pavel Buchnev (butschster)",
-            "email": "pavel.buchnev@spiralscout.com"
+            "name": "Pavel Buchnev",
+            "homepage": "https://github.com/butschster"
         },
         {
-            "name": "Aleksei Gagarin (roxblnfk)",
-            "email": "alexey.gagarin@spiralscout.com"
+            "name": "Aleksei Gagarin",
+            "homepage": "https://github.com/roxblnfk"
         },
         {
-            "name": "Maksim Smakouz (msmakouz)",
-            "email": "maksim.smakouz@spiralscout.com"
+            "name": "Maksim Smakouz",
+            "homepage": "https://github.com/msmakouz"
         },
         {
             "name": "RoadRunner Community",
-            "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+            "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
         }
     ],
     "homepage": "https://roadrunner.dev/",
     "support": {
-        "docs": "https://docs.roadrunner.dev",
+        "docs": "https://docs.roadrunner.dev/docs/grpc/grpc",
         "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+        "source": "https://github.com/roadrunner-php/grpc",
         "forum": "https://forum.roadrunner.dev/",
         "chat": "https://discord.gg/V6EK4he"
     },
@@ -43,8 +52,8 @@
         "ext-json": "*",
         "google/common-protos": "^3.1|^4.0",
         "google/protobuf": "^3.7 || ^4.0 || ^5.0",
-        "spiral/roadrunner-worker": "^3.7",
-        "spiral/goridge": "^4.3",
+        "roadrunner/goridge": "^4.5",
+        "roadrunner/worker": "^3.8",
         "spiral/roadrunner": "^3.0",
         "symfony/polyfill-php83": "^1.27"
     },
@@ -56,6 +65,9 @@
         "testo/bridge-mockery": "^0.1.2",
         "testo/testo": "^0.10.55",
         "vimeo/psalm": "^6 || ^7"
+    },
+    "replace": {
+        "spiral/roadrunner-grpc": "self.version"
     },
     "autoload": {
         "psr-4": {
