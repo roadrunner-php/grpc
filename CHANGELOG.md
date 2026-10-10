@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.8.0](https://github.com/roadrunner-php/grpc/compare/v3.7.0...3.8.0) (2026-10-10)
+
+
+### Features
+
+* rename the package to roadrunner/grpc ([456e133](https://github.com/roadrunner-php/grpc/commit/456e1338f48346a68bb16cd6d215c517c59ca10a))
+* support RoadRunner v3 ([#40](https://github.com/roadrunner-php/grpc/issues/40)) ([456e133](https://github.com/roadrunner-php/grpc/commit/456e1338f48346a68bb16cd6d215c517c59ca10a))
+
 ## [3.7.0](https://github.com/roadrunner-php/grpc/compare/v3.6.0...v3.7.0) (2026-10-10)
 
 
