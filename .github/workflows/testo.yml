@@ -12,3 +12,6 @@ jobs:
     with:
       os: >-
         ['ubuntu-latest']
+      codecov: true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
