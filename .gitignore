@@ -1,6 +1,8 @@
-/runtime
-/vendor
-/.idea
+/.*/
+!/.github/
+/runtime/
+/vendor/
 /.env
-composer.lock
-example/vendor/
+*.log
+/composer.lock
+/example/*/vendor/
