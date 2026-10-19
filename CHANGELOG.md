@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.8.1](https://github.com/roadrunner-php/grpc/compare/3.8.0...3.8.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* require roadrunner/roadrunner instead of spiral/roadrunner ([3a263ec](https://github.com/roadrunner-php/grpc/commit/3a263ec9fa7898a827f3b24efe64a73d1c6f1465))
+
 ## [3.8.0](https://github.com/roadrunner-php/grpc/compare/v3.7.0...3.8.0) (2026-10-10)
 
 
