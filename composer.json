@@ -53,8 +53,8 @@
         "google/common-protos": "^3.1|^4.0",
         "google/protobuf": "^3.7 || ^4.0 || ^5.0",
         "roadrunner/goridge": "^4.5",
+        "roadrunner/roadrunner": "^3.0",
         "roadrunner/worker": "^3.8",
-        "spiral/roadrunner": "^3.0",
         "symfony/polyfill-php83": "^1.27"
     },
     "require-dev": {
